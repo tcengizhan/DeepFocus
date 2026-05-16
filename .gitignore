@@ -1,0 +1,7 @@
+bin/
+obj/
+.vs/
+.dotnet-cli-home/
+*.user
+*.suo
+*.tmp

@@ -1,0 +1,44 @@
+<UserControl x:Class="DeepFocus.Views.StatisticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF">
+    <Grid Background="{StaticResource DeepFocusBackgroundBrush}" Margin="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="260" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <lvc:CartesianChart Series="{Binding WeeklySeries}"
+                            Background="Transparent"
+                            LegendPosition="Hidden" />
+
+        <ListBox Grid.Row="1"
+                 ItemsSource="{Binding Sessions}"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 Foreground="{StaticResource DeepFocusTextSecondaryBrush}"
+                 Margin="0,28,0,0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Mode}" Style="{StaticResource WideTextStyle}" />
+                            <TextBlock Text="{Binding StartedAt, StringFormat={}{0:dd MMM HH:mm}}"
+                                       Style="{StaticResource WideTextStyle}"
+                                       Foreground="{StaticResource DeepFocusTextMutedBrush}"
+                                       FontSize="12" />
+                        </StackPanel>
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding Duration}"
+                                   Style="{StaticResource WideTextStyle}"
+                                   Foreground="{StaticResource DeepFocusTextSecondaryBrush}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

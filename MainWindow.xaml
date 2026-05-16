@@ -1,0 +1,90 @@
+<Window x:Class="DeepFocus.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:DeepFocus.Views"
+        Title="DeepFocus"
+        Width="420"
+        Height="780"
+        MinWidth="360"
+        MinHeight="640"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="False"
+        ResizeMode="CanResize"
+        Background="{StaticResource DeepFocusBackgroundBrush}">
+    <Border Background="{StaticResource DeepFocusBackgroundBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"
+                  Background="{StaticResource DeepFocusBackgroundBrush}"
+                  MouseLeftButtonDown="OnTitleBarMouseLeftButtonDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="DEEPFOCUS"
+                           Style="{StaticResource ChromeTitleTextStyle}"
+                           VerticalAlignment="Center"
+                           Margin="18,0,0,0" />
+
+                <Button Grid.Column="1"
+                        Content="–"
+                        Style="{StaticResource ChromeButtonStyle}"
+                        Click="OnMinimizeClick" />
+                <Button Grid.Column="2"
+                        Content="×"
+                        Style="{StaticResource ChromeButtonStyle}"
+                        Click="OnCloseClick" />
+            </Grid>
+
+            <TabControl Grid.Row="1"
+                        Style="{StaticResource BottomTabControlStyle}">
+                <TabItem Style="{StaticResource BottomTabItemStyle}">
+                    <TabItem.Header>
+                        <StackPanel Style="{StaticResource TabHeaderStackStyle}">
+                            <TextBlock Text="◷" Style="{StaticResource TabIconTextStyle}" />
+                            <TextBlock Text="SAAT" Style="{StaticResource TabLabelTextStyle}" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <views:ClockView DataContext="{Binding Clock}" />
+                </TabItem>
+
+                <TabItem Style="{StaticResource BottomTabItemStyle}">
+                    <TabItem.Header>
+                        <StackPanel Style="{StaticResource TabHeaderStackStyle}">
+                            <TextBlock Text="⏱" Style="{StaticResource TabIconTextStyle}" />
+                            <TextBlock Text="KRONO" Style="{StaticResource TabLabelTextStyle}" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <views:StopwatchView DataContext="{Binding Stopwatch}" />
+                </TabItem>
+
+                <TabItem Style="{StaticResource BottomTabItemStyle}">
+                    <TabItem.Header>
+                        <StackPanel Style="{StaticResource TabHeaderStackStyle}">
+                            <TextBlock Text="◴" Style="{StaticResource TabIconTextStyle}" />
+                            <TextBlock Text="TIMER" Style="{StaticResource TabLabelTextStyle}" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <views:CountdownView DataContext="{Binding Countdown}" />
+                </TabItem>
+
+                <TabItem Style="{StaticResource BottomTabItemStyle}">
+                    <TabItem.Header>
+                        <StackPanel Style="{StaticResource TabHeaderStackStyle}">
+                            <TextBlock Text="▥" Style="{StaticResource TabIconTextStyle}" />
+                            <TextBlock Text="İSTATİSTİK" Style="{StaticResource TabLabelTextStyle}" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <views:StatisticsView DataContext="{Binding Statistics}" />
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Border>
+</Window>

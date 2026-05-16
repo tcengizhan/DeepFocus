@@ -1,0 +1,14 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="DeepFocusBackgroundColor">#040b11</Color>
+    <Color x:Key="DeepFocusWhiteColor">#ffffff</Color>
+    <Color x:Key="DeepFocusSecondsColor">#162738</Color>
+
+    <SolidColorBrush x:Key="DeepFocusBackgroundBrush" Color="{StaticResource DeepFocusBackgroundColor}" />
+    <SolidColorBrush x:Key="DeepFocusWhiteBrush" Color="{StaticResource DeepFocusWhiteColor}" />
+    <SolidColorBrush x:Key="DeepFocusTextPrimaryBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.96" />
+    <SolidColorBrush x:Key="DeepFocusTextSecondaryBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.62" />
+    <SolidColorBrush x:Key="DeepFocusTextMutedBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.34" />
+    <SolidColorBrush x:Key="DeepFocusLineBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.22" />
+    <SolidColorBrush x:Key="DeepFocusSecondsBrush" Color="{StaticResource DeepFocusSecondsColor}" />
+</ResourceDictionary>

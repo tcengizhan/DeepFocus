@@ -2,6 +2,8 @@ using System.Windows;
 using DeepFocus.Services;
 using DeepFocus.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 
 namespace DeepFocus;
 
@@ -13,6 +15,7 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
         ConfigureServices(services);
+        ApplicationThemeManager.Apply(ApplicationTheme.Dark, WindowBackdropType.Mica, updateAccent: false);
 
         _serviceProvider = services.BuildServiceProvider();
         var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();

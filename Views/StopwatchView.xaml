@@ -1,6 +1,7 @@
 <UserControl x:Class="DeepFocus.Views.StopwatchView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <Grid Background="{StaticResource DeepFocusBackgroundBrush}" Margin="28">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -17,9 +18,9 @@
                        FontFamily="Consolas"
                        TextAlignment="Center" />
             <UniformGrid Columns="3" Margin="0,44,0,36">
-                <Button Content="{Binding StartButtonText}" Command="{Binding StartCommand}" Style="{StaticResource ActionButtonStyle}" />
-                <Button Content="TUR" Command="{Binding LapCommand}" Style="{StaticResource ActionButtonStyle}" Margin="10,0" />
-                <Button Content="RESET" Command="{Binding ResetCommand}" Style="{StaticResource ActionButtonStyle}" />
+                <ui:Button Content="{Binding StartButtonText}" Command="{Binding StartCommand}" Style="{StaticResource FluentActionButtonStyle}" />
+                <ui:Button Content="TUR" Command="{Binding LapCommand}" Style="{StaticResource FluentActionButtonStyle}" Margin="10,0" />
+                <ui:Button Content="RESET" Command="{Binding ResetCommand}" Style="{StaticResource FluentActionButtonStyle}" />
             </UniformGrid>
         </StackPanel>
 

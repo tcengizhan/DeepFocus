@@ -1,6 +1,7 @@
 <UserControl x:Class="DeepFocus.Views.StatisticsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF">
     <Grid Background="{StaticResource DeepFocusBackgroundBrush}" Margin="28">
         <Grid.RowDefinitions>
@@ -9,7 +10,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Border Style="{StaticResource StatCardStyle}" Padding="18">
+        <ui:Card Style="{StaticResource DeepFocusCardStyle}" Padding="18">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -26,32 +27,29 @@
                        Foreground="{StaticResource DeepFocusWhiteBrush}"
                        FontSize="18"
                        VerticalAlignment="Center" />
-            <TextBox Grid.Column="1"
-                     Text="{Binding DailyGoalHours, UpdateSourceTrigger=PropertyChanged}"
-                     Width="72"
-                     Height="42"
-                     Background="{StaticResource DeepFocusBackgroundBrush}"
-                     BorderBrush="{StaticResource DeepFocusCardBorderBrush}"
-                     BorderThickness="1"
-                     Foreground="{StaticResource DeepFocusWhiteBrush}"
-                     FontSize="22"
-                     FontWeight="Light"
-                     TextAlignment="Center" />
+            <ui:NumberBox Grid.Column="1"
+                          Value="{Binding DailyGoalHours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Minimum="0"
+                          Width="92"
+                          Height="42"
+                          FontSize="22"
+                          FontWeight="Light"
+                          TextAlignment="Center" />
             <TextBlock Grid.Column="2"
                        Text="saat"
                        Style="{StaticResource WideTextStyle}"
                        Foreground="{StaticResource DeepFocusTextSecondaryBrush}"
                        VerticalAlignment="Center"
                        Margin="8,0,0,0" />
-            <Button Grid.Row="1"
-                    Grid.ColumnSpan="3"
-                    Content="S&#305;f&#305;rla"
-                    Command="{Binding ResetDailyGoalCommand}"
-                    Style="{StaticResource ActionButtonStyle}"
-                    HorizontalAlignment="Stretch"
-                    Margin="0,14,0,0" />
+            <ui:Button Grid.Row="1"
+                       Grid.ColumnSpan="3"
+                       Content="S&#305;f&#305;rla"
+                       Command="{Binding ResetDailyGoalCommand}"
+                       Style="{StaticResource FluentActionButtonStyle}"
+                       HorizontalAlignment="Stretch"
+                       Margin="0,14,0,0" />
         </Grid>
-        </Border>
+        </ui:Card>
 
         <lvc:CartesianChart Grid.Row="1"
                             Series="{Binding WeeklySeries}"

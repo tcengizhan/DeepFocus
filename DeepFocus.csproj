@@ -11,5 +11,6 @@
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.*" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.*" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.*" />
+    <PackageReference Include="WPF-UI" Version="4.3.0" />
   </ItemGroup>
 </Project>

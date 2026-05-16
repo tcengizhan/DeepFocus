@@ -1,6 +1,7 @@
 <UserControl x:Class="DeepFocus.Views.ClockView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <Grid Background="{StaticResource DeepFocusBackgroundBrush}" Margin="28">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.72*" />
@@ -27,18 +28,10 @@
             <TextBlock Text="G&#252;nl&#252;k &#199;al&#305;&#351;ma Hedefi"
                        Style="{StaticResource SmallCapsTextStyle}"
                        Margin="0,0,0,12" />
-            <Grid Width="300" Height="18">
-                <Border Height="1"
-                        Background="{StaticResource DeepFocusWhiteBrush}"
-                        VerticalAlignment="Center" />
-                <Canvas Width="300" Height="18">
-                    <Ellipse Width="6"
-                             Height="6"
-                             Fill="{StaticResource DeepFocusWhiteBrush}"
-                             Canvas.Left="{Binding GoalDotOffset}"
-                             Canvas.Top="6" />
-                </Canvas>
-            </Grid>
+            <ProgressBar Width="300"
+                         Maximum="1"
+                         Value="{Binding DailyGoalProgress}"
+                         Style="{StaticResource ThinGoalProgressStyle}" />
             <TextBlock Text="{Binding DailyGoalPercentText}"
                        Style="{StaticResource SmallCapsTextStyle}"
                        Margin="0,8,0,0" />
@@ -51,7 +44,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border Style="{StaticResource StatCardStyle}">
+            <ui:Card Style="{StaticResource DeepFocusCardStyle}">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="G&#252;nl&#252;k Seri" Style="{StaticResource SmallCapsTextStyle}" />
                     <TextBlock Text="{Binding DailyStreakDisplay}"
@@ -61,9 +54,9 @@
                                HorizontalAlignment="Center"
                                Margin="0,8,0,0" />
                 </StackPanel>
-            </Border>
+            </ui:Card>
 
-            <Border Grid.Column="1" Style="{StaticResource StatCardStyle}">
+            <ui:Card Grid.Column="1" Style="{StaticResource DeepFocusCardStyle}">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="En Uzun Oturum" Style="{StaticResource SmallCapsTextStyle}" />
                     <TextBlock Text="{Binding LongestSession}"
@@ -73,9 +66,9 @@
                                HorizontalAlignment="Center"
                                Margin="0,8,0,0" />
                 </StackPanel>
-            </Border>
+            </ui:Card>
 
-            <Border Grid.Column="2" Style="{StaticResource StatCardStyle}">
+            <ui:Card Grid.Column="2" Style="{StaticResource DeepFocusCardStyle}">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="Bu Hafta" Style="{StaticResource SmallCapsTextStyle}" />
                     <TextBlock Text="{Binding WeeklyComparison}"
@@ -85,7 +78,7 @@
                                HorizontalAlignment="Center"
                                Margin="0,8,0,0" />
                 </StackPanel>
-            </Border>
+            </ui:Card>
         </Grid>
     </Grid>
 </UserControl>

@@ -10,10 +10,15 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1">
-            <TextBlock Text="{Binding DisplayTime}" Style="{StaticResource LargeTimeTextStyle}" />
+            <TextBlock Text="{Binding DisplayTime}"
+                       Style="{StaticResource LargeTimeTextStyle}"
+                       Width="400"
+                       FontSize="74"
+                       FontFamily="Consolas"
+                       TextAlignment="Center" />
             <UniformGrid Columns="3" Margin="0,44,0,36">
                 <Button Content="{Binding StartButtonText}" Command="{Binding StartCommand}" Style="{StaticResource ActionButtonStyle}" />
-                <Button Content="LAP" Command="{Binding LapCommand}" Style="{StaticResource ActionButtonStyle}" Margin="10,0" />
+                <Button Content="TUR" Command="{Binding LapCommand}" Style="{StaticResource ActionButtonStyle}" Margin="10,0" />
                 <Button Content="RESET" Command="{Binding ResetCommand}" Style="{StaticResource ActionButtonStyle}" />
             </UniformGrid>
         </StackPanel>
@@ -30,7 +35,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Number, StringFormat=LAP {0}}" Style="{StaticResource WideTextStyle}" Foreground="{StaticResource DeepFocusTextSecondaryBrush}" />
+                        <TextBlock Text="{Binding Label}" Style="{StaticResource WideTextStyle}" Foreground="{StaticResource DeepFocusTextSecondaryBrush}" />
                         <TextBlock Grid.Column="1" Text="{Binding DisplayTime}" Style="{StaticResource WideTextStyle}" />
                     </Grid>
                 </DataTemplate>

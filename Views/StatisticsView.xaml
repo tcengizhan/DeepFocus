@@ -4,15 +4,49 @@
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF">
     <Grid Background="{StaticResource DeepFocusBackgroundBrush}" Margin="28">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="260" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <lvc:CartesianChart Series="{Binding WeeklySeries}"
-                            Background="Transparent"
-                            LegendPosition="Hidden" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Row="1"
+            <TextBlock Text="G&#252;nl&#252;k Hedef"
+                       Style="{StaticResource WideTextStyle}"
+                       Foreground="{StaticResource DeepFocusTextSecondaryBrush}"
+                       VerticalAlignment="Center" />
+            <TextBox Grid.Column="1"
+                     Text="{Binding DailyGoalHours, UpdateSourceTrigger=PropertyChanged}"
+                     Width="58"
+                     Background="Transparent"
+                     BorderBrush="{StaticResource DeepFocusLineBrush}"
+                     BorderThickness="0,0,0,1"
+                     Foreground="{StaticResource DeepFocusWhiteBrush}"
+                     FontSize="18"
+                     FontWeight="Light"
+                     TextAlignment="Center" />
+            <TextBlock Grid.Column="2"
+                       Text="saat"
+                       Style="{StaticResource WideTextStyle}"
+                       Foreground="{StaticResource DeepFocusTextSecondaryBrush}"
+                       VerticalAlignment="Center"
+                       Margin="8,0,0,0" />
+        </Grid>
+
+        <lvc:CartesianChart Grid.Row="1"
+                            Series="{Binding WeeklySeries}"
+                            XAxes="{Binding XAxes}"
+                            YAxes="{Binding YAxes}"
+                            Background="Transparent"
+                            LegendPosition="Hidden"
+                            Margin="0,22,0,0" />
+
+        <ListBox Grid.Row="2"
                  ItemsSource="{Binding Sessions}"
                  Background="Transparent"
                  BorderThickness="0"

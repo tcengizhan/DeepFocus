@@ -8,5 +8,7 @@ public sealed class LapRecord
 
     public DateTime RecordedAt { get; set; } = DateTime.Now;
 
+    public string Label => $"TUR {Number}";
+
     public string DisplayTime => Elapsed.ToString(@"mm\:ss\.ff");
 }

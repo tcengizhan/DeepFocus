@@ -57,7 +57,7 @@
                 <TabItem Style="{StaticResource BottomTabItemStyle}">
                     <TabItem.Header>
                         <StackPanel Style="{StaticResource TabHeaderStackStyle}">
-                            <TextBlock Text="KRONO" Style="{StaticResource TabLabelTextStyle}" />
+                            <TextBlock Text="KRONOMETRE" Style="{StaticResource TabLabelTextStyle}" />
                         </StackPanel>
                     </TabItem.Header>
                     <views:StopwatchView DataContext="{Binding Stopwatch}" />

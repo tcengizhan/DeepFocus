@@ -164,5 +164,6 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="12" />
         <Setter Property="Margin" Value="4,0" />
+        <Setter Property="MinHeight" Value="104" />
     </Style>
 </ResourceDictionary>

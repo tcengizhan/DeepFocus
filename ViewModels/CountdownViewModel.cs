@@ -1,6 +1,7 @@
 using System.Media;
 using System.Windows;
 using System.Windows.Input;
+using DeepFocus.Models;
 using DeepFocus.Services;
 
 namespace DeepFocus.ViewModels;
@@ -9,10 +10,13 @@ public sealed class CountdownViewModel : BaseViewModel
 {
     private int _minutes = 25;
     private TimeSpan _remaining = TimeSpan.FromMinutes(25);
+    private DateTime? _startedAt;
     private bool _isRunning;
+    private readonly ISessionService _sessionService;
 
-    public CountdownViewModel(ITimerService timerService)
+    public CountdownViewModel(ITimerService timerService, ISessionService sessionService)
     {
+        _sessionService = sessionService;
         timerService.Tick += (_, _) => Tick();
         timerService.Start();
 
@@ -44,7 +48,7 @@ public sealed class CountdownViewModel : BaseViewModel
         }
     }
 
-    public string DisplayTime => Remaining.ToString(@"mm\:ss");
+    public string DisplayTime => $"{(int)Remaining.TotalMinutes:00}:{Remaining.Seconds:00}";
 
     public string StartButtonText => _isRunning ? "PAUSE" : "START";
 
@@ -55,12 +59,18 @@ public sealed class CountdownViewModel : BaseViewModel
     private void ToggleStart()
     {
         _isRunning = !_isRunning;
+        if (_isRunning)
+        {
+            _startedAt ??= DateTime.Now;
+        }
+
         OnPropertyChanged(nameof(StartButtonText));
     }
 
     private void Reset()
     {
         _isRunning = false;
+        _startedAt = null;
         Remaining = TimeSpan.FromMinutes(Minutes);
         OnPropertyChanged(nameof(StartButtonText));
     }
@@ -81,8 +91,23 @@ public sealed class CountdownViewModel : BaseViewModel
 
         _isRunning = false;
         Remaining = TimeSpan.Zero;
+        _ = SaveCompletedSessionAsync();
         OnPropertyChanged(nameof(StartButtonText));
         SystemSounds.Asterisk.Play();
-        MessageBox.Show("Timer tamamlandı.", "DeepFocus", MessageBoxButton.OK, MessageBoxImage.Information);
+        MessageBox.Show("Timer tamamlandi.", "DeepFocus", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
+    private async Task SaveCompletedSessionAsync()
+    {
+        await _sessionService.AddSessionAsync(new TimerSession
+        {
+            StartedAt = _startedAt ?? DateTime.Now.Subtract(TimeSpan.FromMinutes(Minutes)),
+            EndedAt = DateTime.Now,
+            Duration = TimeSpan.FromMinutes(Minutes),
+            Mode = "Timer",
+            Completed = true
+        });
+
+        _startedAt = null;
     }
 }

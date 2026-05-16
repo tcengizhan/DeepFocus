@@ -2,7 +2,7 @@ namespace DeepFocus.Services;
 
 public interface IGoalService
 {
-    double GetDailyGoalProgress();
+    Task<double> GetDailyGoalProgressAsync(CancellationToken cancellationToken = default);
 
-    int GetDailyStreak();
+    Task<int> GetDailyStreakAsync(CancellationToken cancellationToken = default);
 }

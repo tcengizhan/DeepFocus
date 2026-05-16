@@ -9,17 +9,23 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1">
-            <TextBox Text="{Binding Minutes, UpdateSourceTrigger=PropertyChanged}"
-                     Width="96"
-                     HorizontalAlignment="Center"
-                     Background="Transparent"
-                     BorderBrush="{StaticResource DeepFocusLineBrush}"
-                     BorderThickness="0,0,0,1"
-                     Foreground="{StaticResource DeepFocusWhiteBrush}"
-                     FontSize="28"
-                     FontWeight="Light"
-                     TextAlignment="Center"
-                     Margin="0,0,0,28" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,28">
+                <TextBox Text="{Binding Minutes, UpdateSourceTrigger=PropertyChanged}"
+                         MinWidth="96"
+                         Background="Transparent"
+                         BorderBrush="{StaticResource DeepFocusLineBrush}"
+                         BorderThickness="0,0,0,1"
+                         Foreground="{StaticResource DeepFocusWhiteBrush}"
+                         FontSize="28"
+                         FontWeight="Light"
+                         TextAlignment="Center" />
+                <TextBlock Text="min"
+                           Style="{StaticResource WideTextStyle}"
+                           Foreground="{StaticResource DeepFocusTextSecondaryBrush}"
+                           FontSize="14"
+                           VerticalAlignment="Center"
+                           Margin="10,6,0,0" />
+            </StackPanel>
             <TextBlock Text="{Binding DisplayTime}" Style="{StaticResource LargeTimeTextStyle}" />
             <UniformGrid Columns="2" Margin="64,44,64,0">
                 <Button Content="{Binding StartButtonText}" Command="{Binding StartCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,0,8,0" />

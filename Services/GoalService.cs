@@ -1,29 +1,23 @@
-using System.Text.Json;
-using System.IO;
-
 namespace DeepFocus.Services;
 
 public sealed class GoalService : IGoalService
 {
-    private readonly string _preferencesPath;
+    private readonly ISessionService _sessionService;
 
-    public GoalService()
+    public GoalService(ISessionService sessionService)
     {
-        _preferencesPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "DeepFocus",
-            "preferences.json");
+        _sessionService = sessionService;
     }
 
-    public double GetDailyGoalProgress()
+    public async Task<double> GetDailyGoalProgressAsync(CancellationToken cancellationToken = default)
     {
-        _ = JsonSerializer.Serialize(new { DailyGoalMinutes = 120 });
-        return 0.42;
+        var workedMinutes = await _sessionService.GetTodayWorkedMinutesAsync(cancellationToken);
+        var goalMinutes = await _sessionService.GetDailyGoalMinutesAsync(cancellationToken);
+        return Math.Clamp(workedMinutes / goalMinutes, 0, 1);
     }
 
-    public int GetDailyStreak()
+    public Task<int> GetDailyStreakAsync(CancellationToken cancellationToken = default)
     {
-        _ = _preferencesPath;
-        return 4;
+        return Task.FromResult(4);
     }
 }

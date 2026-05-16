@@ -28,37 +28,48 @@
                  ItemsSource="{Binding Laps}"
                  Background="Transparent"
                  BorderThickness="0"
-                 Foreground="{StaticResource DeepFocusTextSecondaryBrush}">
+                 Foreground="{StaticResource DeepFocusTextSecondaryBrush}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Foreground" Value="{StaticResource DeepFocusTextSecondaryBrush}" />
                     <Setter Property="BorderThickness" Value="0" />
                     <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ListBoxItem">
-                                <ContentPresenter />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Background="Transparent">
+                                        <ContentPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                 </Style>
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,8">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="110" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Label}" Style="{StaticResource WideTextStyle}" Foreground="{StaticResource DeepFocusTextSecondaryBrush}" />
-                        <TextBlock Grid.Column="2"
-                                   Text="{Binding DisplayTime}"
-                                   Style="{StaticResource WideTextStyle}"
-                                   FontFamily="Consolas"
-                                   TextAlignment="Right" />
-                    </Grid>
+                    <Border Background="{StaticResource DeepFocusBackgroundBrush}"
+                            BorderBrush="{StaticResource DeepFocusLineBrush}"
+                            BorderThickness="0,0,0,1"
+                            Padding="0,10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="110" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Label}" Style="{StaticResource WideTextStyle}" Foreground="{StaticResource DeepFocusTextSecondaryBrush}" />
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding DisplayTime}"
+                                       Style="{StaticResource WideTextStyle}"
+                                       FontFamily="Consolas"
+                                       TextAlignment="Right" />
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

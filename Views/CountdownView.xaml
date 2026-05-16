@@ -51,7 +51,7 @@
                          Foreground="{StaticResource DeepFocusTextSecondaryBrush}"
                          MaxHeight="210"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         SelectionMode="NoSelection">
+                         SelectionMode="Single">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Background" Value="Transparent" />
@@ -67,6 +67,9 @@
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter TargetName="ItemBorder" Property="Background" Value="#15ffffff" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="ItemBorder" Property="Background" Value="Transparent" />
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>

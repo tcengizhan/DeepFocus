@@ -1,20 +1,24 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
+using System.Windows.Threading;
 using DeepFocus.Models;
-using DeepFocus.Services;
 
 namespace DeepFocus.ViewModels;
 
 public sealed class StopwatchViewModel : BaseViewModel
 {
     private readonly Stopwatch _stopwatch = new();
-    private string _displayTime = "00:00:00.00";
+    private readonly DispatcherTimer _displayTimer;
+    private string _displayTime = "00:00.00";
 
-    public StopwatchViewModel(ITimerService timerService)
+    public StopwatchViewModel()
     {
-        timerService.Tick += (_, _) => RefreshDisplay();
-        timerService.Start();
+        _displayTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(10)
+        };
+        _displayTimer.Tick += (_, _) => RefreshDisplay();
 
         StartCommand = new RelayCommand(ToggleStart);
         LapCommand = new RelayCommand(AddLap, () => _stopwatch.IsRunning);
@@ -46,6 +50,12 @@ public sealed class StopwatchViewModel : BaseViewModel
         else
         {
             _stopwatch.Start();
+            _displayTimer.Start();
+        }
+
+        if (!_stopwatch.IsRunning)
+        {
+            _displayTimer.Stop();
         }
 
         OnPropertyChanged(nameof(StartButtonText));
@@ -64,6 +74,7 @@ public sealed class StopwatchViewModel : BaseViewModel
     private void Reset()
     {
         _stopwatch.Reset();
+        _displayTimer.Stop();
         Laps.Clear();
         RefreshDisplay();
         OnPropertyChanged(nameof(StartButtonText));
@@ -72,6 +83,6 @@ public sealed class StopwatchViewModel : BaseViewModel
 
     private void RefreshDisplay()
     {
-        DisplayTime = _stopwatch.Elapsed.ToString(@"hh\:mm\:ss\.ff");
+        DisplayTime = _stopwatch.Elapsed.ToString(@"mm\:ss\.ff");
     }
 }

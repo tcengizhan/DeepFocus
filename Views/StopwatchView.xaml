@@ -10,7 +10,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1">
-            <TextBlock Text="{Binding DisplayTime}" Style="{StaticResource LargeTimeTextStyle}" FontSize="64" />
+            <TextBlock Text="{Binding DisplayTime}" Style="{StaticResource LargeTimeTextStyle}" />
             <UniformGrid Columns="3" Margin="0,44,0,36">
                 <Button Content="{Binding StartButtonText}" Command="{Binding StartCommand}" Style="{StaticResource ActionButtonStyle}" />
                 <Button Content="LAP" Command="{Binding LapCommand}" Style="{StaticResource ActionButtonStyle}" Margin="10,0" />

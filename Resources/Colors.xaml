@@ -1,12 +1,16 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Color x:Key="DeepFocusBackgroundColor">#040b11</Color>
+    <Color x:Key="DeepFocusCardColor">#070f17</Color>
+    <Color x:Key="DeepFocusCardBorderColor">#0c1c28</Color>
     <Color x:Key="DeepFocusWhiteColor">#ffffff</Color>
     <Color x:Key="DeepFocusSecondsColor">#162738</Color>
 
     <SolidColorBrush x:Key="DeepFocusBackgroundBrush" Color="{StaticResource DeepFocusBackgroundColor}" />
+    <SolidColorBrush x:Key="DeepFocusCardBrush" Color="{StaticResource DeepFocusCardColor}" />
+    <SolidColorBrush x:Key="DeepFocusCardBorderBrush" Color="{StaticResource DeepFocusCardBorderColor}" />
     <SolidColorBrush x:Key="DeepFocusWhiteBrush" Color="{StaticResource DeepFocusWhiteColor}" />
-    <SolidColorBrush x:Key="DeepFocusTextPrimaryBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.96" />
+    <SolidColorBrush x:Key="DeepFocusTextPrimaryBrush" Color="{StaticResource DeepFocusWhiteColor}" />
     <SolidColorBrush x:Key="DeepFocusTextSecondaryBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.62" />
     <SolidColorBrush x:Key="DeepFocusTextMutedBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.34" />
     <SolidColorBrush x:Key="DeepFocusLineBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.22" />

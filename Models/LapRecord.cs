@@ -8,5 +8,5 @@ public sealed class LapRecord
 
     public DateTime RecordedAt { get; set; } = DateTime.Now;
 
-    public string DisplayTime => Elapsed.ToString(@"hh\:mm\:ss\.ff");
+    public string DisplayTime => Elapsed.ToString(@"mm\:ss\.ff");
 }

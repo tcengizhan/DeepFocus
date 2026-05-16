@@ -14,5 +14,6 @@
     <SolidColorBrush x:Key="DeepFocusTextSecondaryBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.62" />
     <SolidColorBrush x:Key="DeepFocusTextMutedBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.34" />
     <SolidColorBrush x:Key="DeepFocusLineBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.22" />
+    <SolidColorBrush x:Key="DeepFocusLowOpacityLineBrush" Color="{StaticResource DeepFocusWhiteColor}" Opacity="0.15" />
     <SolidColorBrush x:Key="DeepFocusSecondsBrush" Color="{StaticResource DeepFocusSecondsColor}" />
 </ResourceDictionary>

@@ -1,4 +1,4 @@
-using System.Media;
+using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -14,8 +14,9 @@ public sealed class CountdownViewModel : BaseViewModel
     private DateTime? _startedAt;
     private bool _isRunning;
     private bool _isCompletionOverlayVisible;
-    private string _completedDurationText = "0 dk tamamlandi";
+    private string _completedDurationText = "0 dk tamamland\u0131";
     private readonly ISessionService _sessionService;
+    private readonly MediaPlayer _mediaPlayer = new();
 
     public CountdownViewModel(ITimerService timerService, ISessionService sessionService)
     {
@@ -28,6 +29,13 @@ public sealed class CountdownViewModel : BaseViewModel
         ResetCommand = new RelayCommand(Reset);
         DismissCompletionCommand = new RelayCommand(DismissCompletion);
         _ = RefreshTimerHistoryAsync();
+
+        try
+        {
+            _mediaPlayer.Open(new Uri(@"C:\Windows\Media\chimes.wav"));
+            _mediaPlayer.Volume = 1.0;
+        }
+        catch { }
     }
 
     public int Minutes
@@ -117,9 +125,15 @@ public sealed class CountdownViewModel : BaseViewModel
         Remaining = TimeSpan.Zero;
         _ = SaveCompletedSessionAsync();
         OnPropertyChanged(nameof(StartButtonText));
-        CompletedDurationText = $"{Minutes} dk tamamlandi";
+        CompletedDurationText = $"{Minutes} dk tamamland\u0131";
         IsCompletionOverlayVisible = true;
-        SystemSounds.Exclamation.Play();
+        
+        try
+        {
+            _mediaPlayer.Position = TimeSpan.Zero;
+            _mediaPlayer.Play();
+        }
+        catch { }
     }
 
     private void DismissCompletion()

@@ -13,6 +13,11 @@ public partial class App : Application
 
     private void OnStartup(object sender, StartupEventArgs e)
     {
+        var trCulture = new System.Globalization.CultureInfo("tr-TR");
+        System.Threading.Thread.CurrentThread.CurrentCulture = trCulture;
+        System.Threading.Thread.CurrentThread.CurrentUICulture = trCulture;
+        FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(System.Windows.Markup.XmlLanguage.GetLanguage("tr-TR")));
+
         var services = new ServiceCollection();
         ConfigureServices(services);
         ApplicationThemeManager.Apply(ApplicationTheme.Dark, WindowBackdropType.Mica, updateAccent: false);

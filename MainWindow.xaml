@@ -4,15 +4,13 @@
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:views="clr-namespace:DeepFocus.Views"
                  Title="DeepFocus"
-                 Width="520"
+                 Width="480"
                  Height="780"
-                 MinWidth="480"
-                 MinHeight="720"
                  WindowStartupLocation="CenterScreen"
                  WindowStyle="None"
                  ExtendsContentIntoTitleBar="True"
                  WindowBackdropType="Mica"
-                 ResizeMode="CanResize"
+                 ResizeMode="NoResize"
                  Background="{StaticResource DeepFocusBackgroundBrush}">
     <Border Background="{StaticResource DeepFocusBackgroundBrush}">
         <Grid>

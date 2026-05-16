@@ -1,3 +1,4 @@
+using System.Globalization;
 using DeepFocus.Services;
 
 namespace DeepFocus.ViewModels;
@@ -6,9 +7,10 @@ public sealed class ClockViewModel : BaseViewModel
 {
     private readonly IGoalService _goalService;
     private readonly ISessionService _sessionService;
+    private readonly CultureInfo _culture = new("tr-TR");
     private string _time = DateTime.Now.ToString("HH:mm");
     private string _seconds = DateTime.Now.ToString("ss");
-    private string _date = DateTime.Now.ToString("dddd, dd MMMM yyyy").ToUpperInvariant();
+    private string _date;
     private double _dailyGoalProgress;
     private double _goalDotOffset;
     private string _dailyGoalPercentText = "%0";
@@ -20,6 +22,7 @@ public sealed class ClockViewModel : BaseViewModel
     {
         _goalService = goalService;
         _sessionService = sessionService;
+        _date = _culture.TextInfo.ToUpper(DateTime.Now.ToString("dddd, dd MMMM yyyy", _culture));
         _sessionService.SessionsChanged += async (_, _) => await RefreshDashboardAsync();
         timerService.Tick += (_, _) => RefreshTime();
         timerService.Start();
@@ -91,7 +94,7 @@ public sealed class ClockViewModel : BaseViewModel
         var now = DateTime.Now;
         Time = now.ToString("HH:mm");
         Seconds = now.ToString("ss");
-        Date = now.ToString("dddd, dd MMMM yyyy").ToUpperInvariant();
+        Date = _culture.TextInfo.ToUpper(now.ToString("dddd, dd MMMM yyyy", _culture));
     }
 
     private async Task RefreshDashboardAsync()

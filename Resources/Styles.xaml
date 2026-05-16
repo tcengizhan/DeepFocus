@@ -222,9 +222,10 @@
     </Style>
 
     <Style x:Key="StatCardStyle" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource DeepFocusCardBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource DeepFocusCardBorderBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{StaticResource DeepFocusLowOpacityLineBrush}" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
         <Setter Property="Padding" Value="12" />
         <Setter Property="Margin" Value="4,0" />
         <Setter Property="MinHeight" Value="104" />

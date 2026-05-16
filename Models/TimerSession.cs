@@ -1,7 +1,11 @@
+using System.Globalization;
+
 namespace DeepFocus.Models;
 
 public sealed class TimerSession
 {
+    private static readonly CultureInfo TrCulture = CultureInfo.GetCultureInfo("tr-TR");
+
     public int Id { get; set; }
 
     public DateTime StartedAt { get; set; }
@@ -14,7 +18,7 @@ public sealed class TimerSession
 
     public bool Completed { get; set; }
 
-    public string TimerHistoryText => $"{Math.Round(Duration.TotalMinutes)} dk - {StartedAt:dd MMM HH:mm}";
+    public string TimerHistoryText => $"{Math.Round(Duration.TotalMinutes)} dk - {StartedAt.ToString("dd MMM HH:mm", TrCulture)}";
 
     public string DurationText => Duration.TotalHours >= 1
         ? Duration.ToString(@"hh\:mm\:ss")

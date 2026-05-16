@@ -56,4 +56,9 @@ public partial class MainWindow : FluentWindow
             EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
         });
     }
+
+    private void StatisticsView_Loaded(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

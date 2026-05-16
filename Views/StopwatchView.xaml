@@ -18,9 +18,9 @@
                        FontFamily="Consolas"
                        TextAlignment="Center" />
             <UniformGrid Columns="3" Margin="0,44,0,36">
-                <ui:Button Content="{Binding StartButtonText}" Command="{Binding StartCommand}" Style="{StaticResource FluentActionButtonStyle}" />
-                <ui:Button Content="TUR" Command="{Binding LapCommand}" Style="{StaticResource FluentActionButtonStyle}" Margin="10,0" />
-                <ui:Button Content="RESET" Command="{Binding ResetCommand}" Style="{StaticResource FluentActionButtonStyle}" />
+                <Button Content="{Binding StartButtonText}" Command="{Binding StartCommand}" Style="{StaticResource GlowActionButtonStyle}" />
+                <Button Content="TUR" Command="{Binding LapCommand}" Style="{StaticResource GlowActionButtonStyle}" Margin="10,0" />
+                <Button Content="RESET" Command="{Binding ResetCommand}" Style="{StaticResource GlowActionButtonStyle}" />
             </UniformGrid>
         </StackPanel>
 

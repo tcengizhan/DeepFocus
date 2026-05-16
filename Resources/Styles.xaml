@@ -65,15 +65,50 @@
         </Setter>
     </Style>
 
-    <Style x:Key="FluentActionButtonStyle" TargetType="{x:Type ui:Button}">
-        <Setter Property="Appearance" Value="Secondary" />
+    <Style x:Key="GlowActionButtonStyle" TargetType="Button">
         <Setter Property="Height" Value="44" />
         <Setter Property="MinWidth" Value="92" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="11" />
         <Setter Property="FontWeight" Value="Light" />
-        <Setter Property="Foreground" Value="{StaticResource DeepFocusWhiteBrush}" />
-        <Setter Property="Background" Value="#14000000" />
-        <Setter Property="BorderBrush" Value="{StaticResource DeepFocusLineBrush}" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="Foreground" Value="#FFFFFF" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="#FFFFFF" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="ButtonBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter x:Name="ButtonText"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="#0D0D0D" />
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="White" />
+                            <Setter TargetName="ButtonBorder" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect Color="White"
+                                                      BlurRadius="16"
+                                                      ShadowDepth="0"
+                                                      Opacity="0.25" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.35" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="DeepFocusCardStyle" TargetType="{x:Type ui:Card}">

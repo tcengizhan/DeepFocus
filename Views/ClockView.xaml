@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Background="{StaticResource DeepFocusBackgroundBrush}" Margin="28">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="0.72*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="36" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="1.28*" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1" HorizontalAlignment="Center">
@@ -22,8 +22,11 @@
             </StackPanel>
             <TextBlock Text="{Binding Date}"
                        Style="{StaticResource SmallCapsTextStyle}"
-                       Margin="0,6,0,56" />
+                       Margin="0,6,0,68" />
 
+            <TextBlock Text="G&#252;nl&#252;k &#199;al&#305;&#351;ma Hedefi"
+                       Style="{StaticResource SmallCapsTextStyle}"
+                       Margin="0,0,0,12" />
             <Grid Width="300" Height="18">
                 <Border Height="1"
                         Background="{StaticResource DeepFocusWhiteBrush}"

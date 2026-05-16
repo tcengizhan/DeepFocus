@@ -13,6 +13,7 @@ public sealed class StatisticsViewModel : BaseViewModel
 {
     private readonly ISessionService _sessionService;
     private int _dailyGoalHours;
+    private string _dailyGoalHoursInput = "0";
     private ObservableCollection<double> _weeklyMinutes = [];
 
     public StatisticsViewModel(ISessionService sessionService)
@@ -54,6 +55,7 @@ public sealed class StatisticsViewModel : BaseViewModel
         ];
 
         Sessions = [];
+        SaveDailyGoalCommand = new RelayCommand(() => _ = SaveDailyGoalAsync());
         ResetDailyGoalCommand = new RelayCommand(() => _ = ResetDailyGoalAsync());
         _ = RefreshAsync();
     }
@@ -65,6 +67,8 @@ public sealed class StatisticsViewModel : BaseViewModel
     public Axis[] YAxes { get; }
 
     public ObservableCollection<TimerSession> Sessions { get; }
+
+    public ICommand SaveDailyGoalCommand { get; }
 
     public ICommand ResetDailyGoalCommand { get; }
 
@@ -87,11 +91,19 @@ public sealed class StatisticsViewModel : BaseViewModel
         }
     }
 
+    public string DailyGoalHoursInput
+    {
+        get => _dailyGoalHoursInput;
+        set => SetProperty(ref _dailyGoalHoursInput, value);
+    }
+
     private async Task RefreshAsync()
     {
         var goalMinutes = await _sessionService.GetDailyGoalMinutesAsync();
         _dailyGoalHours = goalMinutes <= 0 ? 0 : Math.Max(1, (int)Math.Ceiling(goalMinutes / 60.0));
+        _dailyGoalHoursInput = _dailyGoalHours.ToString();
         OnPropertyChanged(nameof(DailyGoalHours));
+        OnPropertyChanged(nameof(DailyGoalHoursInput));
 
         var week = await _sessionService.GetCurrentWeekMinutesAsync();
         WeeklyMinutes.Clear();
@@ -111,6 +123,19 @@ public sealed class StatisticsViewModel : BaseViewModel
     {
         await _sessionService.ResetDailyGoalAsync();
         _dailyGoalHours = 0;
+        DailyGoalHoursInput = "0";
         OnPropertyChanged(nameof(DailyGoalHours));
+    }
+
+    private async Task SaveDailyGoalAsync()
+    {
+        if (!int.TryParse(DailyGoalHoursInput, out var hours))
+        {
+            hours = 0;
+        }
+
+        _dailyGoalHours = Math.Max(0, hours);
+        OnPropertyChanged(nameof(DailyGoalHours));
+        await _sessionService.SetDailyGoalMinutesAsync(_dailyGoalHours * 60);
     }
 }

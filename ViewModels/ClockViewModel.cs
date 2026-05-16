@@ -108,6 +108,6 @@ public sealed class ClockViewModel : BaseViewModel
             : longest.ToString(@"mm\:ss");
 
         var week = await _sessionService.GetCurrentWeekMinutesAsync();
-        WeeklyComparison = $"{Math.Round(week.Sum())} dk";
+        WeeklyComparison = $"{Math.Round(week.Length == 0 ? 0 : week.Max())} dk";
     }
 }

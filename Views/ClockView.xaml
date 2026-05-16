@@ -44,7 +44,9 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <ui:Card Style="{StaticResource DeepFocusCardStyle}">
+            <ui:Card BorderBrush="{StaticResource DeepFocusCardBorderBrush}"
+                     BorderThickness="1"
+                     Style="{StaticResource DeepFocusCardStyle}">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="G&#252;nl&#252;k Seri" Style="{StaticResource SmallCapsTextStyle}" />
                     <TextBlock Text="{Binding DailyStreakDisplay}"
@@ -56,7 +58,10 @@
                 </StackPanel>
             </ui:Card>
 
-            <ui:Card Grid.Column="1" Style="{StaticResource DeepFocusCardStyle}">
+            <ui:Card Grid.Column="1"
+                     BorderBrush="{StaticResource DeepFocusCardBorderBrush}"
+                     BorderThickness="1"
+                     Style="{StaticResource DeepFocusCardStyle}">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="En Uzun Oturum" Style="{StaticResource SmallCapsTextStyle}" />
                     <TextBlock Text="{Binding LongestSession}"
@@ -68,9 +73,12 @@
                 </StackPanel>
             </ui:Card>
 
-            <ui:Card Grid.Column="2" Style="{StaticResource DeepFocusCardStyle}">
+            <ui:Card Grid.Column="2"
+                     BorderBrush="{StaticResource DeepFocusCardBorderBrush}"
+                     BorderThickness="1"
+                     Style="{StaticResource DeepFocusCardStyle}">
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Bu Hafta" Style="{StaticResource SmallCapsTextStyle}" />
+                    <TextBlock Text="Bu Hafta En Y&#252;ksek" Style="{StaticResource SmallCapsTextStyle}" />
                     <TextBlock Text="{Binding WeeklyComparison}"
                                Style="{StaticResource WideTextStyle}"
                                FontSize="24"

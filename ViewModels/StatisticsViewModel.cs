@@ -5,13 +5,14 @@ using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
+using System.Windows.Input;
 
 namespace DeepFocus.ViewModels;
 
 public sealed class StatisticsViewModel : BaseViewModel
 {
     private readonly ISessionService _sessionService;
-    private int _dailyGoalHours = 2;
+    private int _dailyGoalHours;
     private ObservableCollection<double> _weeklyMinutes = [];
 
     public StatisticsViewModel(ISessionService sessionService)
@@ -25,7 +26,10 @@ public sealed class StatisticsViewModel : BaseViewModel
             new ColumnSeries<double>
             {
                 Values = WeeklyMinutes,
-                Name = "Dakika"
+                Name = "Dakika",
+                Fill = new SolidColorPaint(SKColors.White),
+                Stroke = null,
+                MaxBarWidth = 18
             }
         ];
 
@@ -50,6 +54,7 @@ public sealed class StatisticsViewModel : BaseViewModel
         ];
 
         Sessions = [];
+        ResetDailyGoalCommand = new RelayCommand(() => _ = ResetDailyGoalAsync());
         _ = RefreshAsync();
     }
 
@@ -60,6 +65,8 @@ public sealed class StatisticsViewModel : BaseViewModel
     public Axis[] YAxes { get; }
 
     public ObservableCollection<TimerSession> Sessions { get; }
+
+    public ICommand ResetDailyGoalCommand { get; }
 
     public ObservableCollection<double> WeeklyMinutes
     {
@@ -72,7 +79,7 @@ public sealed class StatisticsViewModel : BaseViewModel
         get => _dailyGoalHours;
         set
         {
-            var sanitized = Math.Max(1, value);
+            var sanitized = Math.Max(0, value);
             if (SetProperty(ref _dailyGoalHours, sanitized))
             {
                 _ = _sessionService.SetDailyGoalMinutesAsync(sanitized * 60);
@@ -83,7 +90,7 @@ public sealed class StatisticsViewModel : BaseViewModel
     private async Task RefreshAsync()
     {
         var goalMinutes = await _sessionService.GetDailyGoalMinutesAsync();
-        _dailyGoalHours = Math.Max(1, (int)Math.Ceiling(goalMinutes / 60.0));
+        _dailyGoalHours = goalMinutes <= 0 ? 0 : Math.Max(1, (int)Math.Ceiling(goalMinutes / 60.0));
         OnPropertyChanged(nameof(DailyGoalHours));
 
         var week = await _sessionService.GetCurrentWeekMinutesAsync();
@@ -98,5 +105,12 @@ public sealed class StatisticsViewModel : BaseViewModel
         {
             Sessions.Add(session);
         }
+    }
+
+    private async Task ResetDailyGoalAsync()
+    {
+        await _sessionService.ResetDailyGoalAsync();
+        _dailyGoalHours = 0;
+        OnPropertyChanged(nameof(DailyGoalHours));
     }
 }

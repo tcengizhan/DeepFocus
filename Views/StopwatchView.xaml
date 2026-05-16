@@ -32,11 +32,16 @@
                 <DataTemplate>
                     <Grid Margin="0,8">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="110" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding Label}" Style="{StaticResource WideTextStyle}" Foreground="{StaticResource DeepFocusTextSecondaryBrush}" />
-                        <TextBlock Grid.Column="1" Text="{Binding DisplayTime}" Style="{StaticResource WideTextStyle}" />
+                        <TextBlock Grid.Column="2"
+                                   Text="{Binding DisplayTime}"
+                                   Style="{StaticResource WideTextStyle}"
+                                   FontFamily="Consolas"
+                                   TextAlignment="Right" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

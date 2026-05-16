@@ -14,7 +14,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding Time}" Style="{StaticResource LargeTimeTextStyle}" />
                 <TextBlock Text="{Binding Seconds}"
-                           Foreground="{StaticResource DeepFocusSecondsBrush}"
+                           Foreground="{StaticResource DeepFocusWhiteBrush}"
+                           Opacity="0.42"
                            FontSize="22"
                            FontWeight="ExtraLight"
                            Margin="8,30,0,0" />
@@ -35,6 +36,9 @@
                              Canvas.Top="6" />
                 </Canvas>
             </Grid>
+            <TextBlock Text="{Binding DailyGoalPercentText}"
+                       Style="{StaticResource SmallCapsTextStyle}"
+                       Margin="0,8,0,0" />
         </StackPanel>
 
         <Grid Grid.Row="3" Margin="0,44,0,0">
@@ -47,22 +51,12 @@
             <Border Style="{StaticResource StatCardStyle}">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="G&#252;nl&#252;k Seri" Style="{StaticResource SmallCapsTextStyle}" />
-                    <ItemsControl Margin="0,16,0,0">
-                        <ItemsControl.Items>
-                            <Ellipse Width="6" Height="6" Fill="{StaticResource DeepFocusWhiteBrush}" Margin="3,0" />
-                            <Ellipse Width="6" Height="6" Fill="{StaticResource DeepFocusWhiteBrush}" Margin="3,0" />
-                            <Ellipse Width="6" Height="6" Fill="{StaticResource DeepFocusWhiteBrush}" Margin="3,0" />
-                            <Ellipse Width="6" Height="6" Fill="{StaticResource DeepFocusWhiteBrush}" Margin="3,0" />
-                            <Ellipse Width="6" Height="6" Fill="{StaticResource DeepFocusLineBrush}" Margin="3,0" />
-                            <Ellipse Width="6" Height="6" Fill="{StaticResource DeepFocusLineBrush}" Margin="3,0" />
-                            <Ellipse Width="6" Height="6" Fill="{StaticResource DeepFocusLineBrush}" Margin="3,0" />
-                        </ItemsControl.Items>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                    <TextBlock Text="{Binding DailyStreakDisplay}"
+                               Style="{StaticResource WideTextStyle}"
+                               FontSize="28"
+                               Foreground="{StaticResource DeepFocusWhiteBrush}"
+                               HorizontalAlignment="Center"
+                               Margin="0,8,0,0" />
                 </StackPanel>
             </Border>
 

@@ -130,7 +130,7 @@ public sealed class SessionService : ISessionService
         using var command = connection.CreateCommand();
         command.CommandText = "SELECT Value FROM Preferences WHERE Key = 'DailyGoalMinutes';";
         var value = command.ExecuteScalar()?.ToString();
-        return Task.FromResult(int.TryParse(value, out var minutes) ? minutes : 120);
+        return Task.FromResult(int.TryParse(value, out var minutes) ? Math.Max(0, minutes) : 0);
     }
 
     public Task SetDailyGoalMinutesAsync(int minutes, CancellationToken cancellationToken = default)
@@ -142,11 +142,52 @@ public sealed class SessionService : ISessionService
             VALUES ('DailyGoalMinutes', $value)
             ON CONFLICT(Key) DO UPDATE SET Value = excluded.Value;
             """;
-        command.Parameters.AddWithValue("$value", Math.Max(1, minutes).ToString());
+        command.Parameters.AddWithValue("$value", Math.Max(0, minutes).ToString());
         command.ExecuteNonQuery();
 
         SessionsChanged?.Invoke(this, EventArgs.Empty);
         return Task.CompletedTask;
+    }
+
+    public Task ResetDailyGoalAsync(CancellationToken cancellationToken = default)
+    {
+        return SetDailyGoalMinutesAsync(0, cancellationToken);
+    }
+
+    public Task<int> GetDailyStreakAsync(CancellationToken cancellationToken = default)
+    {
+        using var connection = OpenConnection();
+        var streak = 0;
+
+        for (var day = DateTime.Today; streak < 365; day = day.AddDays(-1))
+        {
+            using var command = connection.CreateCommand();
+            command.CommandText = """
+                SELECT COALESCE(SUM(DurationSeconds), 0)
+                FROM TimerSessions
+                WHERE StartedAt >= $dayStart AND StartedAt < $dayEnd;
+                """;
+            command.Parameters.AddWithValue("$dayStart", day.ToString("O"));
+            command.Parameters.AddWithValue("$dayEnd", day.AddDays(1).ToString("O"));
+
+            var seconds = Convert.ToDouble(command.ExecuteScalar());
+            if (seconds <= 0)
+            {
+                break;
+            }
+
+            streak++;
+        }
+
+        return Task.FromResult(streak);
+    }
+
+    public Task<TimeSpan> GetLongestSessionAsync(CancellationToken cancellationToken = default)
+    {
+        using var connection = OpenConnection();
+        using var command = connection.CreateCommand();
+        command.CommandText = "SELECT COALESCE(MAX(DurationSeconds), 0) FROM TimerSessions;";
+        return Task.FromResult(TimeSpan.FromSeconds(Convert.ToDouble(command.ExecuteScalar())));
     }
 
     private void InitializeDatabase()
@@ -168,8 +209,6 @@ public sealed class SessionService : ISessionService
                 Value TEXT NOT NULL
             );
 
-            INSERT OR IGNORE INTO Preferences (Key, Value)
-            VALUES ('DailyGoalMinutes', '120');
             """;
         command.ExecuteNonQuery();
     }

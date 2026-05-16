@@ -13,4 +13,10 @@ public sealed class TimerSession
     public string Mode { get; set; } = string.Empty;
 
     public bool Completed { get; set; }
+
+    public string TimerHistoryText => $"{Math.Round(Duration.TotalMinutes)} dk - {StartedAt:dd MMM HH:mm}";
+
+    public string DurationText => Duration.TotalHours >= 1
+        ? Duration.ToString(@"hh\:mm\:ss")
+        : Duration.ToString(@"mm\:ss");
 }

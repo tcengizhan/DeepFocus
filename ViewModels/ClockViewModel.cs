@@ -11,15 +11,19 @@ public sealed class ClockViewModel : BaseViewModel
     private string _date = DateTime.Now.ToString("dddd, dd MMMM yyyy").ToUpperInvariant();
     private double _dailyGoalProgress;
     private double _goalDotOffset;
+    private string _dailyGoalPercentText = "%0";
+    private string _dailyStreakDisplay = "0";
+    private string _longestSession = "00:00";
+    private string _weeklyComparison = "%0";
 
     public ClockViewModel(ITimerService timerService, IGoalService goalService, ISessionService sessionService)
     {
         _goalService = goalService;
         _sessionService = sessionService;
-        _sessionService.SessionsChanged += async (_, _) => await RefreshGoalProgressAsync();
+        _sessionService.SessionsChanged += async (_, _) => await RefreshDashboardAsync();
         timerService.Tick += (_, _) => RefreshTime();
         timerService.Start();
-        _ = RefreshGoalProgressAsync();
+        _ = RefreshDashboardAsync();
     }
 
     public string Time
@@ -58,11 +62,29 @@ public sealed class ClockViewModel : BaseViewModel
         private set => SetProperty(ref _goalDotOffset, value);
     }
 
-    public int DailyStreak => 4;
+    public string DailyGoalPercentText
+    {
+        get => _dailyGoalPercentText;
+        private set => SetProperty(ref _dailyGoalPercentText, value);
+    }
 
-    public string LongestSession => "01:45";
+    public string DailyStreakDisplay
+    {
+        get => _dailyStreakDisplay;
+        private set => SetProperty(ref _dailyStreakDisplay, value);
+    }
 
-    public string WeeklyComparison => "+18%";
+    public string LongestSession
+    {
+        get => _longestSession;
+        private set => SetProperty(ref _longestSession, value);
+    }
+
+    public string WeeklyComparison
+    {
+        get => _weeklyComparison;
+        private set => SetProperty(ref _weeklyComparison, value);
+    }
 
     private void RefreshTime()
     {
@@ -72,8 +94,20 @@ public sealed class ClockViewModel : BaseViewModel
         Date = now.ToString("dddd, dd MMMM yyyy").ToUpperInvariant();
     }
 
-    private async Task RefreshGoalProgressAsync()
+    private async Task RefreshDashboardAsync()
     {
         DailyGoalProgress = await _goalService.GetDailyGoalProgressAsync();
+        DailyGoalPercentText = $"%{Math.Round(DailyGoalProgress * 100)}";
+
+        var streak = await _goalService.GetDailyStreakAsync();
+        DailyStreakDisplay = streak.ToString();
+
+        var longest = await _sessionService.GetLongestSessionAsync();
+        LongestSession = longest.TotalHours >= 1
+            ? longest.ToString(@"hh\:mm\:ss")
+            : longest.ToString(@"mm\:ss");
+
+        var week = await _sessionService.GetCurrentWeekMinutesAsync();
+        WeeklyComparison = $"{Math.Round(week.Sum())} dk";
     }
 }

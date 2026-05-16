@@ -1,4 +1,5 @@
 using System.Media;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using DeepFocus.Models;
@@ -17,11 +18,13 @@ public sealed class CountdownViewModel : BaseViewModel
     public CountdownViewModel(ITimerService timerService, ISessionService sessionService)
     {
         _sessionService = sessionService;
+        _sessionService.SessionsChanged += async (_, _) => await RefreshTimerHistoryAsync();
         timerService.Tick += (_, _) => Tick();
         timerService.Start();
 
         StartCommand = new RelayCommand(ToggleStart);
         ResetCommand = new RelayCommand(Reset);
+        _ = RefreshTimerHistoryAsync();
     }
 
     public int Minutes
@@ -55,6 +58,8 @@ public sealed class CountdownViewModel : BaseViewModel
     public ICommand StartCommand { get; }
 
     public ICommand ResetCommand { get; }
+
+    public ObservableCollection<TimerSession> TimerHistory { get; } = [];
 
     private void ToggleStart()
     {
@@ -109,5 +114,14 @@ public sealed class CountdownViewModel : BaseViewModel
         });
 
         _startedAt = null;
+    }
+
+    private async Task RefreshTimerHistoryAsync()
+    {
+        TimerHistory.Clear();
+        foreach (var session in (await _sessionService.GetRecentSessionsAsync()).Where(session => session.Mode == "Timer"))
+        {
+            TimerHistory.Add(session);
+        }
     }
 }

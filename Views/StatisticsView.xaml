@@ -9,25 +9,32 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <Border Style="{StaticResource StatCardStyle}" Padding="18">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
             <TextBlock Text="G&#252;nl&#252;k Hedef"
                        Style="{StaticResource WideTextStyle}"
-                       Foreground="{StaticResource DeepFocusTextSecondaryBrush}"
+                       Foreground="{StaticResource DeepFocusWhiteBrush}"
+                       FontSize="18"
                        VerticalAlignment="Center" />
             <TextBox Grid.Column="1"
                      Text="{Binding DailyGoalHours, UpdateSourceTrigger=PropertyChanged}"
-                     Width="58"
-                     Background="Transparent"
-                     BorderBrush="{StaticResource DeepFocusLineBrush}"
-                     BorderThickness="0,0,0,1"
+                     Width="72"
+                     Height="42"
+                     Background="{StaticResource DeepFocusBackgroundBrush}"
+                     BorderBrush="{StaticResource DeepFocusCardBorderBrush}"
+                     BorderThickness="1"
                      Foreground="{StaticResource DeepFocusWhiteBrush}"
-                     FontSize="18"
+                     FontSize="22"
                      FontWeight="Light"
                      TextAlignment="Center" />
             <TextBlock Grid.Column="2"
@@ -36,7 +43,15 @@
                        Foreground="{StaticResource DeepFocusTextSecondaryBrush}"
                        VerticalAlignment="Center"
                        Margin="8,0,0,0" />
+            <Button Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    Content="S&#305;f&#305;rla"
+                    Command="{Binding ResetDailyGoalCommand}"
+                    Style="{StaticResource ActionButtonStyle}"
+                    HorizontalAlignment="Stretch"
+                    Margin="0,14,0,0" />
         </Grid>
+        </Border>
 
         <lvc:CartesianChart Grid.Row="1"
                             Series="{Binding WeeklySeries}"
@@ -67,7 +82,7 @@
                                        FontSize="12" />
                         </StackPanel>
                         <TextBlock Grid.Column="1"
-                                   Text="{Binding Duration}"
+                                   Text="{Binding DurationText}"
                                    Style="{StaticResource WideTextStyle}"
                                    Foreground="{StaticResource DeepFocusTextSecondaryBrush}" />
                     </Grid>

@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Background="{StaticResource DeepFocusBackgroundBrush}" Margin="28">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="1">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,28">
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,18,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBox Text="{Binding Minutes, UpdateSourceTrigger=PropertyChanged}"
                          MinWidth="96"
                          Background="Transparent"
@@ -26,11 +27,42 @@
                            VerticalAlignment="Center"
                            Margin="10,6,0,0" />
             </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" VerticalAlignment="Center">
             <TextBlock Text="{Binding DisplayTime}" Style="{StaticResource LargeTimeTextStyle}" />
             <UniformGrid Columns="2" Margin="64,44,64,0">
                 <Button Content="{Binding StartButtonText}" Command="{Binding StartCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,0,8,0" />
                 <Button Content="RESET" Command="{Binding ResetCommand}" Style="{StaticResource ActionButtonStyle}" Margin="8,0,0,0" />
             </UniformGrid>
         </StackPanel>
+
+        <Border Grid.Row="3"
+                Style="{StaticResource StatCardStyle}"
+                Margin="0,24,0,0"
+                Padding="16">
+            <DockPanel LastChildFill="True">
+                <TextBlock DockPanel.Dock="Top"
+                           Text="Timer Ge&#231;mi&#351;i"
+                           Style="{StaticResource SmallCapsTextStyle}"
+                           HorizontalAlignment="Left"
+                           Margin="0,0,0,10" />
+                <ListBox ItemsSource="{Binding TimerHistory}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Foreground="{StaticResource DeepFocusTextSecondaryBrush}"
+                         MaxHeight="210"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TimerHistoryText}"
+                                       Style="{StaticResource WideTextStyle}"
+                                       Foreground="{StaticResource DeepFocusTextSecondaryBrush}"
+                                       Margin="0,5" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

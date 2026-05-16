@@ -13,11 +13,16 @@ public sealed class GoalService : IGoalService
     {
         var workedMinutes = await _sessionService.GetTodayWorkedMinutesAsync(cancellationToken);
         var goalMinutes = await _sessionService.GetDailyGoalMinutesAsync(cancellationToken);
+        if (goalMinutes <= 0)
+        {
+            return 0;
+        }
+
         return Math.Clamp(workedMinutes / goalMinutes, 0, 1);
     }
 
     public Task<int> GetDailyStreakAsync(CancellationToken cancellationToken = default)
     {
-        return Task.FromResult(4);
+        return _sessionService.GetDailyStreakAsync(cancellationToken);
     }
 }

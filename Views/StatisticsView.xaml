@@ -97,5 +97,53 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <Border Grid.RowSpan="3"
+                Width="240"
+                Height="44"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,18"
+                Background="{StaticResource DeepFocusBackgroundBrush}"
+                BorderBrush="{StaticResource DeepFocusCardBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="6"
+                IsHitTestVisible="False"
+                Opacity="0">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Opacity" Value="0" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSaveToastVisible}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         To="1"
+                                                         Duration="0:0:0.16" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         To="0"
+                                                         Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <TextBlock Text="{Binding SaveToastMessage}"
+                       Style="{StaticResource WideTextStyle}"
+                       Foreground="{StaticResource DeepFocusWhiteBrush}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="13" />
+        </Border>
     </Grid>
 </UserControl>

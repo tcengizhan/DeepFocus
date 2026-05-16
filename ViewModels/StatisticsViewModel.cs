@@ -14,6 +14,8 @@ public sealed class StatisticsViewModel : BaseViewModel
     private readonly ISessionService _sessionService;
     private int _dailyGoalHours;
     private string _dailyGoalHoursInput = "0";
+    private bool _isSaveToastVisible;
+    private int _saveToastVersion;
     private ObservableCollection<double> _weeklyMinutes = [];
 
     public StatisticsViewModel(ISessionService sessionService)
@@ -97,6 +99,14 @@ public sealed class StatisticsViewModel : BaseViewModel
         set => SetProperty(ref _dailyGoalHoursInput, value);
     }
 
+    public bool IsSaveToastVisible
+    {
+        get => _isSaveToastVisible;
+        private set => SetProperty(ref _isSaveToastVisible, value);
+    }
+
+    public string SaveToastMessage => "Hedef kaydedildi \u2713";
+
     private async Task RefreshAsync()
     {
         var goalMinutes = await _sessionService.GetDailyGoalMinutesAsync();
@@ -137,5 +147,18 @@ public sealed class StatisticsViewModel : BaseViewModel
         _dailyGoalHours = Math.Max(0, hours);
         OnPropertyChanged(nameof(DailyGoalHours));
         await _sessionService.SetDailyGoalMinutesAsync(_dailyGoalHours * 60);
+        await ShowSaveToastAsync();
+    }
+
+    private async Task ShowSaveToastAsync()
+    {
+        var version = ++_saveToastVersion;
+        IsSaveToastVisible = true;
+        await Task.Delay(TimeSpan.FromSeconds(2));
+
+        if (version == _saveToastVersion)
+        {
+            IsSaveToastVisible = false;
+        }
     }
 }

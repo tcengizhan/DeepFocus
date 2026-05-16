@@ -13,6 +13,8 @@ public sealed class CountdownViewModel : BaseViewModel
     private TimeSpan _remaining = TimeSpan.FromMinutes(25);
     private DateTime? _startedAt;
     private bool _isRunning;
+    private bool _isCompletionOverlayVisible;
+    private string _completedDurationText = "0 dk tamamlandi";
     private readonly ISessionService _sessionService;
 
     public CountdownViewModel(ITimerService timerService, ISessionService sessionService)
@@ -24,6 +26,7 @@ public sealed class CountdownViewModel : BaseViewModel
 
         StartCommand = new RelayCommand(ToggleStart);
         ResetCommand = new RelayCommand(Reset);
+        DismissCompletionCommand = new RelayCommand(DismissCompletion);
         _ = RefreshTimerHistoryAsync();
     }
 
@@ -59,13 +62,28 @@ public sealed class CountdownViewModel : BaseViewModel
 
     public ICommand ResetCommand { get; }
 
+    public ICommand DismissCompletionCommand { get; }
+
     public ObservableCollection<TimerSession> TimerHistory { get; } = [];
+
+    public bool IsCompletionOverlayVisible
+    {
+        get => _isCompletionOverlayVisible;
+        private set => SetProperty(ref _isCompletionOverlayVisible, value);
+    }
+
+    public string CompletedDurationText
+    {
+        get => _completedDurationText;
+        private set => SetProperty(ref _completedDurationText, value);
+    }
 
     private void ToggleStart()
     {
         _isRunning = !_isRunning;
         if (_isRunning)
         {
+            IsCompletionOverlayVisible = false;
             _startedAt ??= DateTime.Now;
         }
 
@@ -76,6 +94,7 @@ public sealed class CountdownViewModel : BaseViewModel
     {
         _isRunning = false;
         _startedAt = null;
+        IsCompletionOverlayVisible = false;
         Remaining = TimeSpan.FromMinutes(Minutes);
         OnPropertyChanged(nameof(StartButtonText));
     }
@@ -98,8 +117,14 @@ public sealed class CountdownViewModel : BaseViewModel
         Remaining = TimeSpan.Zero;
         _ = SaveCompletedSessionAsync();
         OnPropertyChanged(nameof(StartButtonText));
-        SystemSounds.Asterisk.Play();
-        MessageBox.Show("Timer tamamlandi.", "DeepFocus", MessageBoxButton.OK, MessageBoxImage.Information);
+        CompletedDurationText = $"{Minutes} dk tamamlandi";
+        IsCompletionOverlayVisible = true;
+        SystemSounds.Exclamation.Play();
+    }
+
+    private void DismissCompletion()
+    {
+        IsCompletionOverlayVisible = false;
     }
 
     private async Task SaveCompletedSessionAsync()

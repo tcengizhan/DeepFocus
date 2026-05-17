@@ -75,7 +75,7 @@ olan promptlar ile çok daha iyi bir sonuç alınabileceğini.
 
 ---
 
-## 🏗️ Mimari
+## Mimari
 
 DeepFocus, sürdürülebilirlik sağlamak amacıyla **MVVM (Model-View-ViewModel)** mimarisi üzerine inşa edilmiştir. Bağımlılık yönetimi için Dependency Injection kullanılmış, her servis interface üzerinden inject edilerek katmanlar birbirinden bağımsız tutulmuştur.
 

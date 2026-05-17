@@ -11,7 +11,9 @@
   <ItemGroup>
     <Resource Include="DeepFocus.ico" />
     <Resource Include="deepfocus_seffafvekare.png" />
-    <Resource Include="Resources\alarm_sesi_Og.wav" />
+    <Content Include="Resources\alarm_sesi_Og.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

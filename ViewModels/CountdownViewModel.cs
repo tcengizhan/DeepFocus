@@ -34,7 +34,8 @@ public sealed class CountdownViewModel : BaseViewModel
 
         try
         {
-            _mediaPlayer.Open(new Uri("pack://application:,,,/Resources/alarm_sesi_Og.wav"));
+            var audioPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "alarm_sesi_Og.wav");
+            _mediaPlayer.Open(new Uri(audioPath));
             _mediaPlayer.Volume = 1.0;
         }
         catch { }

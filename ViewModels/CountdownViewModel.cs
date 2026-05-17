@@ -167,9 +167,9 @@ public sealed class CountdownViewModel : BaseViewModel
         }
     }
 
-    private async Task ClearHistoryAsync()
+    private Task ClearHistoryAsync()
     {
-        await _sessionService.ClearTimerHistoryAsync();
         TimerHistory.Clear();
+        return Task.CompletedTask;
     }
 }

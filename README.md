@@ -8,11 +8,15 @@ Aklımda canlandırdığım ve promptlarla bir değer ortaya koyduğum uygulamam
 ---
 ## 📸 Ekran Görüntüleri
 
-| | |
+<div align="center">
+  <img src="Screenshots/anaekran.png" width="45%"/>
+  <img src="Screenshots/kronometre.png" width="45%"/>
+</div>
 
-| ![Ana Ekran](Screenshots/anaekran.png) | ![Kronometre](Screenshots/kronometre.png) |
-| ![Zamanlayıcı](Screenshots/zamanlayici.png) | ![İstatistik](Screenshots/istatistik.png) |
-
+<div align="center">
+  <img src="Screenshots/zamanlayici.png" width="45%"/>
+  <img src="Screenshots/istatistik.png" width="45%"/>
+</div>
 
 ---
 

@@ -13,7 +13,7 @@
 
         <StackPanel Grid.Row="1" HorizontalAlignment="Center">
             <Image Source="pack://application:,,,/deepfocus_seffafvekare.png"
-                   Width="100" Height="100"
+                   Width="190" Height="220"
                    RenderOptions.BitmapScalingMode="HighQuality"
                    HorizontalAlignment="Center"
                    Margin="0,-40,0,24" />

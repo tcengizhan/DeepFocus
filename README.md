@@ -1,5 +1,4 @@
-# DeepFocus 🗡️
-
+# DeepFocus 
 > *Zamanını, verdiğin her nefes kadar verimli kullan.*
 
 Aslında sosyal medyada sürekli gördüğümüz AI ile şunu bunu yaptım içeriklerinden birazda sıkılarak ama içimdeki meraktan dolayı' da denemek istediğim **vibe coding** konseptine ben'de katılmak istedim. Ve evet bir masaüstü verimlilik uygulaması olan DeepFocus ortaya çıkardım. DeepFocus aslında; hayatında sorumlulukları, yapmak istediği çalışmaları, okumaları ve tamamlamak istediği alışkanlıklarını gerçekleştirmek isterken hayattaki en büyük değer olan **zamanı** verimli kullanmak isteyen ve simgesini' de yıkılmaz inancı olan **crusader** temasından alan bireyler için tasarlamak istediğim bir verimlilik uygulaması oldu.  

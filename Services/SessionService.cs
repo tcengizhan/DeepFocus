@@ -190,6 +190,81 @@ public sealed class SessionService : ISessionService
         return Task.FromResult(TimeSpan.FromSeconds(Convert.ToDouble(command.ExecuteScalar())));
     }
 
+    public Task ClearTimerHistoryAsync(CancellationToken cancellationToken = default)
+    {
+        using var connection = OpenConnection();
+        using var command = connection.CreateCommand();
+        command.CommandText = "DELETE FROM TimerSessions WHERE Mode = 'Zamanlayıcı' OR Mode = 'Timer';";
+        command.ExecuteNonQuery();
+
+        SessionsChanged?.Invoke(this, EventArgs.Empty);
+        return Task.CompletedTask;
+    }
+
+    public Task<IReadOnlyList<TimerSession>> GetTodayTimerSessionsAsync(CancellationToken cancellationToken = default)
+    {
+        var today = DateTime.Today;
+        var tomorrow = today.AddDays(1);
+
+        using var connection = OpenConnection();
+        using var command = connection.CreateCommand();
+        command.CommandText = """
+            SELECT Id, StartedAt, EndedAt, DurationSeconds, Mode, Completed
+            FROM TimerSessions
+            WHERE StartedAt >= $today AND StartedAt < $tomorrow
+              AND (Mode = 'Zamanlayıcı' OR Mode = 'Timer')
+              AND Completed = 1
+            ORDER BY StartedAt DESC;
+            """;
+        command.Parameters.AddWithValue("$today", today.ToString("O"));
+        command.Parameters.AddWithValue("$tomorrow", tomorrow.ToString("O"));
+
+        using var reader = command.ExecuteReader();
+        var sessions = new List<TimerSession>();
+
+        while (reader.Read())
+        {
+            sessions.Add(new TimerSession
+            {
+                Id = reader.GetInt32(0),
+                StartedAt = DateTime.Parse(reader.GetString(1)),
+                EndedAt = reader.IsDBNull(2) ? null : DateTime.Parse(reader.GetString(2)),
+                Duration = TimeSpan.FromSeconds(reader.GetDouble(3)),
+                Mode = reader.GetString(4),
+                Completed = reader.GetInt32(5) == 1
+            });
+        }
+
+        return Task.FromResult<IReadOnlyList<TimerSession>>(sessions);
+    }
+
+    public Task AddWorkedMinutesAsync(double minutes, CancellationToken cancellationToken = default)
+    {
+        if (minutes <= 0)
+        {
+            return Task.CompletedTask;
+        }
+
+        var now = DateTime.Now;
+        var duration = TimeSpan.FromMinutes(minutes);
+
+        using var connection = OpenConnection();
+        using var command = connection.CreateCommand();
+        command.CommandText = """
+            INSERT INTO TimerSessions (StartedAt, EndedAt, DurationSeconds, Mode, Completed)
+            VALUES ($startedAt, $endedAt, $durationSeconds, $mode, $completed);
+            """;
+        command.Parameters.AddWithValue("$startedAt", now.Subtract(duration).ToString("O"));
+        command.Parameters.AddWithValue("$endedAt", now.ToString("O"));
+        command.Parameters.AddWithValue("$durationSeconds", duration.TotalSeconds);
+        command.Parameters.AddWithValue("$mode", "Kronometre");
+        command.Parameters.AddWithValue("$completed", 1);
+        command.ExecuteNonQuery();
+
+        SessionsChanged?.Invoke(this, EventArgs.Empty);
+        return Task.CompletedTask;
+    }
+
     private void InitializeDatabase()
     {
         using var connection = OpenConnection();

@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Resource Include="DeepFocus.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.*" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.*" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.*" />

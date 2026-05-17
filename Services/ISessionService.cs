@@ -23,4 +23,10 @@ public interface ISessionService
     Task SetDailyGoalMinutesAsync(int minutes, CancellationToken cancellationToken = default);
 
     Task ResetDailyGoalAsync(CancellationToken cancellationToken = default);
+
+    Task ClearTimerHistoryAsync(CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<TimerSession>> GetTodayTimerSessionsAsync(CancellationToken cancellationToken = default);
+
+    Task AddWorkedMinutesAsync(double minutes, CancellationToken cancellationToken = default);
 }

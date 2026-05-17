@@ -28,6 +28,7 @@ public sealed class CountdownViewModel : BaseViewModel
         StartCommand = new RelayCommand(ToggleStart);
         ResetCommand = new RelayCommand(Reset);
         DismissCompletionCommand = new RelayCommand(DismissCompletion);
+        ClearHistoryCommand = new RelayCommand(() => _ = ClearHistoryAsync());
         _ = RefreshTimerHistoryAsync();
 
         try
@@ -71,6 +72,8 @@ public sealed class CountdownViewModel : BaseViewModel
     public ICommand ResetCommand { get; }
 
     public ICommand DismissCompletionCommand { get; }
+
+    public ICommand ClearHistoryCommand { get; }
 
     public ObservableCollection<TimerSession> TimerHistory { get; } = [];
 
@@ -148,7 +151,7 @@ public sealed class CountdownViewModel : BaseViewModel
             StartedAt = _startedAt ?? DateTime.Now.Subtract(TimeSpan.FromMinutes(Minutes)),
             EndedAt = DateTime.Now,
             Duration = TimeSpan.FromMinutes(Minutes),
-            Mode = "Timer",
+            Mode = "Zamanlayıcı",
             Completed = true
         });
 
@@ -158,9 +161,15 @@ public sealed class CountdownViewModel : BaseViewModel
     private async Task RefreshTimerHistoryAsync()
     {
         TimerHistory.Clear();
-        foreach (var session in (await _sessionService.GetRecentSessionsAsync()).Where(session => session.Mode == "Timer"))
+        foreach (var session in (await _sessionService.GetRecentSessionsAsync()).Where(session => session.Mode == "Zamanlayıcı" || session.Mode == "Timer"))
         {
             TimerHistory.Add(session);
         }
+    }
+
+    private async Task ClearHistoryAsync()
+    {
+        await _sessionService.ClearTimerHistoryAsync();
+        TimerHistory.Clear();
     }
 }

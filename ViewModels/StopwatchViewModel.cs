@@ -14,6 +14,9 @@ public sealed class StopwatchViewModel : BaseViewModel
     private readonly DispatcherTimer _displayTimer;
     private string _displayTime = "00:00.00";
     private DateTime? _startedAt;
+    private bool _isAddToWorkVisible;
+    private bool _isAddToWorkToastVisible;
+    private int _addToWorkToastVersion;
 
     public StopwatchViewModel(ISessionService sessionService)
     {
@@ -27,6 +30,7 @@ public sealed class StopwatchViewModel : BaseViewModel
         StartCommand = new RelayCommand(ToggleStart);
         LapCommand = new RelayCommand(AddLap, () => _stopwatch.IsRunning);
         ResetCommand = new RelayCommand(Reset);
+        AddToWorkCommand = new RelayCommand(() => _ = AddToWorkAsync());
     }
 
     public string DisplayTime
@@ -43,7 +47,21 @@ public sealed class StopwatchViewModel : BaseViewModel
 
     public ICommand ResetCommand { get; }
 
+    public ICommand AddToWorkCommand { get; }
+
     public string StartButtonText => _stopwatch.IsRunning ? "STOP" : "START";
+
+    public bool IsAddToWorkVisible
+    {
+        get => _isAddToWorkVisible;
+        private set => SetProperty(ref _isAddToWorkVisible, value);
+    }
+
+    public bool IsAddToWorkToastVisible
+    {
+        get => _isAddToWorkToastVisible;
+        private set => SetProperty(ref _isAddToWorkToastVisible, value);
+    }
 
     private void ToggleStart()
     {
@@ -52,12 +70,15 @@ public sealed class StopwatchViewModel : BaseViewModel
             _stopwatch.Stop();
             _displayTimer.Stop();
             _ = SaveSessionAsync();
+            IsAddToWorkVisible = _stopwatch.Elapsed >= TimeSpan.FromSeconds(1);
         }
         else
         {
             _startedAt ??= DateTime.Now;
             _stopwatch.Start();
             _displayTimer.Start();
+            IsAddToWorkVisible = false;
+            IsAddToWorkToastVisible = false;
         }
 
         OnPropertyChanged(nameof(StartButtonText));
@@ -79,6 +100,8 @@ public sealed class StopwatchViewModel : BaseViewModel
         _displayTimer.Stop();
         _startedAt = null;
         Laps.Clear();
+        IsAddToWorkVisible = false;
+        IsAddToWorkToastVisible = false;
         RefreshDisplay();
         OnPropertyChanged(nameof(StartButtonText));
         (LapCommand as RelayCommand)?.RaiseCanExecuteChanged();
@@ -113,5 +136,30 @@ public sealed class StopwatchViewModel : BaseViewModel
         });
 
         _startedAt = null;
+    }
+
+    private async Task AddToWorkAsync()
+    {
+        var minutes = _stopwatch.Elapsed.TotalMinutes;
+        if (minutes <= 0)
+        {
+            return;
+        }
+
+        await _sessionService.AddWorkedMinutesAsync(minutes);
+        IsAddToWorkVisible = false;
+        await ShowAddToWorkToastAsync();
+    }
+
+    private async Task ShowAddToWorkToastAsync()
+    {
+        var version = ++_addToWorkToastVersion;
+        IsAddToWorkToastVisible = true;
+        await Task.Delay(TimeSpan.FromSeconds(2));
+
+        if (version == _addToWorkToastVersion)
+        {
+            IsAddToWorkToastVisible = false;
+        }
     }
 }

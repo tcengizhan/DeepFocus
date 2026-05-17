@@ -22,6 +22,22 @@
                 <Button Content="TUR" Command="{Binding LapCommand}" Style="{StaticResource GlowActionButtonStyle}" Margin="10,0" />
                 <Button Content="RESET" Command="{Binding ResetCommand}" Style="{StaticResource GlowActionButtonStyle}" />
             </UniformGrid>
+
+            <Button Content="&#199;al&#305;&#351;maya Ekle"
+                    Command="{Binding AddToWorkCommand}"
+                    HorizontalAlignment="Center"
+                    Padding="24,8"
+                    Margin="0,0,0,16">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource GlowActionButtonStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsAddToWorkVisible}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
 
         <ListBox Grid.Row="2"
@@ -73,5 +89,54 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <!-- Add to work toast -->
+        <Border Grid.RowSpan="4"
+                Width="280"
+                Height="44"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,18"
+                Background="{StaticResource DeepFocusBackgroundBrush}"
+                BorderBrush="{StaticResource DeepFocusCardBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="6"
+                IsHitTestVisible="False"
+                Opacity="0">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Opacity" Value="0" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsAddToWorkToastVisible}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         To="1"
+                                                         Duration="0:0:0.16" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         To="0"
+                                                         Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <TextBlock Text="S&#252;re &#231;al&#305;&#351;ma saatine eklendi &#x2713;"
+                       Style="{StaticResource WideTextStyle}"
+                       Foreground="{StaticResource DeepFocusWhiteBrush}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="13" />
+        </Border>
     </Grid>
 </UserControl>

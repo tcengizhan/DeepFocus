@@ -11,7 +11,7 @@
                  ExtendsContentIntoTitleBar="True"
                  WindowBackdropType="Mica"
                  ResizeMode="NoResize"
-                 Icon="DeepFocus.ico"
+                 Icon="pack://application:,,,/DeepFocus.ico"
                  Background="{StaticResource DeepFocusBackgroundBrush}">
     <Border Background="{StaticResource DeepFocusBackgroundBrush}">
         <Grid>
@@ -79,7 +79,7 @@
                             <ui:SymbolIcon Symbol="HourglassHalf24"
                                            FontSize="18"
                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
-                            <TextBlock Text="TIMER" Style="{StaticResource TabLabelTextStyle}" />
+                            <TextBlock Text="ZAMANLAYICI" Style="{StaticResource TabLabelTextStyle}" />
                         </StackPanel>
                     </TabItem.Header>
                     <views:CountdownView DataContext="{Binding Countdown}" />

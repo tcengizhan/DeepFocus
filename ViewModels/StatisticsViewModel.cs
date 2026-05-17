@@ -16,6 +16,7 @@ public sealed class StatisticsViewModel : BaseViewModel
     private string _dailyGoalHoursInput = "0";
     private bool _isSaveToastVisible;
     private int _saveToastVersion;
+    private string _saveToastMessage = "Hedef kaydedildi \u2713";
     private ObservableCollection<double> _weeklyMinutes = [];
 
     public StatisticsViewModel(ISessionService sessionService)
@@ -57,6 +58,7 @@ public sealed class StatisticsViewModel : BaseViewModel
         ];
 
         Sessions = [];
+        TodayTimerSessions = [];
         SaveDailyGoalCommand = new RelayCommand(() => _ = SaveDailyGoalAsync());
         ResetDailyGoalCommand = new RelayCommand(() => _ = ResetDailyGoalAsync());
         _ = RefreshAsync();
@@ -69,6 +71,8 @@ public sealed class StatisticsViewModel : BaseViewModel
     public Axis[] YAxes { get; }
 
     public ObservableCollection<TimerSession> Sessions { get; }
+
+    public ObservableCollection<TimerSession> TodayTimerSessions { get; }
 
     public ICommand SaveDailyGoalCommand { get; }
 
@@ -105,7 +109,11 @@ public sealed class StatisticsViewModel : BaseViewModel
         private set => SetProperty(ref _isSaveToastVisible, value);
     }
 
-    public string SaveToastMessage => "Hedef kaydedildi \u2713";
+    public string SaveToastMessage
+    {
+        get => _saveToastMessage;
+        private set => SetProperty(ref _saveToastMessage, value);
+    }
 
     private async Task RefreshAsync()
     {
@@ -127,6 +135,12 @@ public sealed class StatisticsViewModel : BaseViewModel
         {
             Sessions.Add(session);
         }
+
+        TodayTimerSessions.Clear();
+        foreach (var session in await _sessionService.GetTodayTimerSessionsAsync())
+        {
+            TodayTimerSessions.Add(session);
+        }
     }
 
     private async Task ResetDailyGoalAsync()
@@ -135,6 +149,7 @@ public sealed class StatisticsViewModel : BaseViewModel
         _dailyGoalHours = 0;
         DailyGoalHoursInput = "0";
         OnPropertyChanged(nameof(DailyGoalHours));
+        await ShowToastAsync("Hedef s\u0131f\u0131rland\u0131 \u2713");
     }
 
     private async Task SaveDailyGoalAsync()
@@ -147,12 +162,13 @@ public sealed class StatisticsViewModel : BaseViewModel
         _dailyGoalHours = Math.Max(0, hours);
         OnPropertyChanged(nameof(DailyGoalHours));
         await _sessionService.SetDailyGoalMinutesAsync(_dailyGoalHours * 60);
-        await ShowSaveToastAsync();
+        await ShowToastAsync("Hedef kaydedildi \u2713");
     }
 
-    private async Task ShowSaveToastAsync()
+    private async Task ShowToastAsync(string message)
     {
         var version = ++_saveToastVersion;
+        SaveToastMessage = message;
         IsSaveToastVisible = true;
         await Task.Delay(TimeSpan.FromSeconds(2));
 

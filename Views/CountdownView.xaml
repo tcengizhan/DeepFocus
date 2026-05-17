@@ -40,11 +40,24 @@
                  Margin="0,24,0,0"
                  Padding="16">
             <DockPanel LastChildFill="True">
-                <TextBlock DockPanel.Dock="Top"
-                           Text="Timer Ge&#231;mi&#351;i"
-                           Style="{StaticResource SmallCapsTextStyle}"
-                           HorizontalAlignment="Left"
-                           Margin="0,0,0,10" />
+                <Grid DockPanel.Dock="Top" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Zamanlayıcı Ge&#231;mi&#351;i"
+                               Style="{StaticResource SmallCapsTextStyle}"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" />
+                    <Button Grid.Column="1"
+                            Content="Ge&#231;mi&#351;i Sıfırla"
+                            Command="{Binding ClearHistoryCommand}"
+                            Style="{StaticResource GlowActionButtonStyle}"
+                            FontSize="11"
+                            Padding="12,4"
+                            Height="28"
+                            VerticalAlignment="Center" />
+                </Grid>
                 <ListBox ItemsSource="{Binding TimerHistory}"
                          Background="Transparent"
                          BorderThickness="0"

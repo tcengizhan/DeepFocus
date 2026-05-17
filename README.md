@@ -9,7 +9,8 @@ Aklımda canlandırdığım ve promptlarla bir değer ortaya koyduğum uygulamam
 ## 📸 Ekran Görüntüleri
 
 | ![Ana Ekran](Screenshots/anaekran.png) |![Kronometre](Screenshots/kronometre.png) |
-| ![Zamanlayıcı](Screenshots/zamanlayıcı.png) | ![İstatistik](Screenshots/istatistik.png) |
+| ![Zamanlayıcı](Screenshots/zamanlayici.png) | ![İstatistik](Screenshots/istatistik.png) |
+
 ---
 
 ## Özellikler

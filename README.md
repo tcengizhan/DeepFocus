@@ -85,5 +85,10 @@ DeepFocus, sürdürülebilirlik sağlamak amacıyla **MVVM (Model-View-ViewModel
 2. En son sürümden `DeepFocus.exe` dosyasını indir
 3. İstediğin bir klasöre koy
 4. `DeepFocus.exe` dosyasına çift tıkla — kurulum gerektirmez
+---
+Değerli geri dönüşleriniz için linkedin veya mail aracılığıyla ulaşabilirsiz!
+tavsanlicengizhan@gmail.com
+
+---
 
 ---

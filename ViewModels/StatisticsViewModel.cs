@@ -61,6 +61,7 @@ public sealed class StatisticsViewModel : BaseViewModel
         TodayTimerSessions = [];
         SaveDailyGoalCommand = new RelayCommand(() => _ = SaveDailyGoalAsync());
         ResetDailyGoalCommand = new RelayCommand(() => _ = ResetDailyGoalAsync());
+        ResetWeeklyChartCommand = new RelayCommand(() => _ = ResetWeeklyChartAsync());
         _ = RefreshAsync();
     }
 
@@ -77,6 +78,8 @@ public sealed class StatisticsViewModel : BaseViewModel
     public ICommand SaveDailyGoalCommand { get; }
 
     public ICommand ResetDailyGoalCommand { get; }
+
+    public ICommand ResetWeeklyChartCommand { get; }
 
     public ObservableCollection<double> WeeklyMinutes
     {
@@ -150,6 +153,12 @@ public sealed class StatisticsViewModel : BaseViewModel
         DailyGoalHoursInput = "0";
         OnPropertyChanged(nameof(DailyGoalHours));
         await ShowToastAsync("Hedef s\u0131f\u0131rland\u0131 \u2713");
+    }
+
+    private async Task ResetWeeklyChartAsync()
+    {
+        await _sessionService.ResetWeeklyChartAsync();
+        await ShowToastAsync("Grafik s\u0131f\u0131rland\u0131 \u2713");
     }
 
     private async Task SaveDailyGoalAsync()

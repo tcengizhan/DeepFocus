@@ -29,4 +29,6 @@ public interface ISessionService
     Task<IReadOnlyList<TimerSession>> GetTodayTimerSessionsAsync(CancellationToken cancellationToken = default);
 
     Task AddWorkedMinutesAsync(double minutes, CancellationToken cancellationToken = default);
+
+    Task ResetWeeklyChartAsync(CancellationToken cancellationToken = default);
 }

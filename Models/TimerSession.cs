@@ -20,6 +20,8 @@ public sealed class TimerSession
     
     public bool HiddenFromTimerTab { get; set; }
 
+    public bool HiddenFromChart { get; set; }
+
     public string TimerHistoryText => $"{Math.Round(Duration.TotalMinutes)} dk - {StartedAt.ToString("dd MMM HH:mm", TrCulture)}";
 
     public string DurationText => Duration.TotalHours >= 1

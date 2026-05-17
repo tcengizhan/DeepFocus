@@ -27,7 +27,7 @@ public sealed class SessionService : ISessionService
         using var connection = OpenConnection();
         using var command = connection.CreateCommand();
         command.CommandText = """
-            SELECT Id, StartedAt, EndedAt, DurationSeconds, Mode, Completed, HiddenFromTimerTab
+            SELECT Id, StartedAt, EndedAt, DurationSeconds, Mode, Completed, HiddenFromTimerTab, HiddenFromChart
             FROM TimerSessions
             ORDER BY StartedAt DESC
             LIMIT 25;
@@ -46,7 +46,8 @@ public sealed class SessionService : ISessionService
                 Duration = TimeSpan.FromSeconds(reader.GetDouble(3)),
                 Mode = reader.GetString(4),
                 Completed = reader.GetInt32(5) == 1,
-                HiddenFromTimerTab = reader.GetInt32(6) == 1
+                HiddenFromTimerTab = reader.GetInt32(6) == 1,
+                HiddenFromChart = reader.GetInt32(7) == 1
             });
         }
 
@@ -88,7 +89,8 @@ public sealed class SessionService : ISessionService
         command.CommandText = """
             SELECT StartedAt, DurationSeconds
             FROM TimerSessions
-            WHERE StartedAt >= $weekStart AND StartedAt < $weekEnd;
+            WHERE StartedAt >= $weekStart AND StartedAt < $weekEnd
+              AND HiddenFromChart = 0;
             """;
         command.Parameters.AddWithValue("$weekStart", weekStart.ToString("O"));
         command.Parameters.AddWithValue("$weekEnd", weekEnd.ToString("O"));
@@ -266,6 +268,26 @@ public sealed class SessionService : ISessionService
         return Task.CompletedTask;
     }
 
+    public Task ResetWeeklyChartAsync(CancellationToken cancellationToken = default)
+    {
+        var weekStart = GetCurrentWeekStart();
+        var weekEnd = weekStart.AddDays(7);
+
+        using var connection = OpenConnection();
+        using var command = connection.CreateCommand();
+        command.CommandText = """
+            UPDATE TimerSessions
+            SET HiddenFromChart = 1
+            WHERE StartedAt >= $weekStart AND StartedAt < $weekEnd;
+            """;
+        command.Parameters.AddWithValue("$weekStart", weekStart.ToString("O"));
+        command.Parameters.AddWithValue("$weekEnd", weekEnd.ToString("O"));
+        command.ExecuteNonQuery();
+
+        SessionsChanged?.Invoke(this, EventArgs.Empty);
+        return Task.CompletedTask;
+    }
+
     private void InitializeDatabase()
     {
         using var connection = OpenConnection();
@@ -278,7 +300,8 @@ public sealed class SessionService : ISessionService
                 DurationSeconds REAL NOT NULL,
                 Mode TEXT NOT NULL,
                 Completed INTEGER NOT NULL,
-                HiddenFromTimerTab INTEGER DEFAULT 0
+                HiddenFromTimerTab INTEGER DEFAULT 0,
+                HiddenFromChart INTEGER DEFAULT 0
             );
 
             CREATE TABLE IF NOT EXISTS Preferences (
@@ -293,6 +316,14 @@ public sealed class SessionService : ISessionService
         {
             using var alterCommand = connection.CreateCommand();
             alterCommand.CommandText = "ALTER TABLE TimerSessions ADD COLUMN HiddenFromTimerTab INTEGER DEFAULT 0;";
+            alterCommand.ExecuteNonQuery();
+        }
+        catch { }
+
+        try
+        {
+            using var alterCommand = connection.CreateCommand();
+            alterCommand.CommandText = "ALTER TABLE TimerSessions ADD COLUMN HiddenFromChart INTEGER DEFAULT 0;";
             alterCommand.ExecuteNonQuery();
         }
         catch { }

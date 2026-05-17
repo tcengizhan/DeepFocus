@@ -12,7 +12,7 @@
     <Resource Include="DeepFocus.ico" />
     <Resource Include="deepfocus_seffafvekare.png" />
     <Content Include="Resources\alarm_sesi_Og.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

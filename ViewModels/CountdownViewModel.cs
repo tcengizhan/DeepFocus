@@ -32,13 +32,7 @@ public sealed class CountdownViewModel : BaseViewModel
         ClearHistoryCommand = new RelayCommand(() => _ = ClearHistoryAsync());
         _ = RefreshTimerHistoryAsync();
 
-        try
-        {
-            var audioPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "alarm_sesi_Og.wav");
-            _mediaPlayer.Open(new Uri(audioPath));
-            _mediaPlayer.Volume = 1.0;
-        }
-        catch { }
+
     }
 
     public int Minutes
@@ -133,8 +127,9 @@ public sealed class CountdownViewModel : BaseViewModel
 
         try
         {
+            var alarmPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "alarm_sesi_Og.wav");
+            _mediaPlayer.Open(new Uri(alarmPath));
             _mediaPlayer.Volume = 1.0;
-            _mediaPlayer.Position = TimeSpan.Zero;
             _mediaPlayer.Play();
         }
         catch { }

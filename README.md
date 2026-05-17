@@ -8,8 +8,11 @@ Aklımda canlandırdığım ve promptlarla bir değer ortaya koyduğum uygulamam
 ---
 ## 📸 Ekran Görüntüleri
 
-| ![Ana Ekran](Screenshots/anaekran.png) |![Kronometre](Screenshots/kronometre.png) |
+| | |
+|:---------:|:----------:|
+| ![Ana Ekran](Screenshots/anaekran.png) | ![Kronometre](Screenshots/kronometre.png) |
 | ![Zamanlayıcı](Screenshots/zamanlayici.png) | ![İstatistik](Screenshots/istatistik.png) |
+
 
 ---
 
@@ -55,19 +58,6 @@ olan promptlar ile çok daha iyi bir sonuç alınabileceğini.
 
 ---
 
-## 🛠️ Teknolojiler
-
-| Teknoloji | Kullanım Amacı |
-|-----------|---------------|
-| **WPF (.NET 8)** | Masaüstü uygulama framework'ü |
-| **MVVM Pattern** | Mimari desen |
-| **WPF-UI (Fluent)** | Modern UI bileşenleri |
-| **SQLite** | Oturum ve hedef verilerinin kalıcı depolanması |
-| **LiveCharts2** | Haftalık çalışma grafiği |
-| **Microsoft.Extensions.DependencyInjection** | Bağımlılık enjeksiyonu |
-
----
-
 ## 🛠️ Kullanılan Teknolojiler
 
 - **WPF (.NET 8):** Kullanıcı arayüzünün oluşturulması için
@@ -93,5 +83,3 @@ DeepFocus, sürdürülebilirlik sağlamak amacıyla **MVVM (Model-View-ViewModel
 4. `DeepFocus.exe` dosyasına çift tıkla — kurulum gerektirmez
 
 ---
-
-

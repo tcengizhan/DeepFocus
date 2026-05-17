@@ -18,6 +18,7 @@ public sealed class CountdownViewModel : BaseViewModel
     private bool _isCompletionOverlayVisible;
     private string _completedDurationText = "0 dk tamamland\u0131";
     private readonly ISessionService _sessionService;
+    private SoundPlayer? _activePlayer;
 
     public event Action<int>? RequestTabSwitch;
 
@@ -146,8 +147,8 @@ public sealed class CountdownViewModel : BaseViewModel
                 
             if (File.Exists(alarmPath))
             {
-                SoundPlayer player = new SoundPlayer(alarmPath);
-                player.Play();
+                _activePlayer = new SoundPlayer(alarmPath);
+                _activePlayer.Play();
             }
             else
             {
@@ -163,6 +164,11 @@ public sealed class CountdownViewModel : BaseViewModel
     private void DismissCompletion()
     {
         IsCompletionOverlayVisible = false;
+        try
+        {
+            _activePlayer?.Stop();
+        }
+        catch { }
     }
 
     private async Task SaveCompletedSessionAsync()

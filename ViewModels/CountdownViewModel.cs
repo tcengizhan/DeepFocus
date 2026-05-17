@@ -34,7 +34,7 @@ public sealed class CountdownViewModel : BaseViewModel
 
         try
         {
-            _mediaPlayer.Open(new Uri("pack://application:,,,/Resources/alarm.m4a"));
+            _mediaPlayer.Open(new Uri("pack://application:,,,/Resources/alarm.wav"));
             _mediaPlayer.Volume = 1.0;
         }
         catch { }
@@ -132,6 +132,7 @@ public sealed class CountdownViewModel : BaseViewModel
 
         try
         {
+            _mediaPlayer.Volume = 1.0;
             _mediaPlayer.Position = TimeSpan.Zero;
             _mediaPlayer.Play();
         }

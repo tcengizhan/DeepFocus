@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Media;
+using System.IO;
 using DeepFocus.Models;
 using DeepFocus.Services;
 
@@ -17,7 +18,6 @@ public sealed class CountdownViewModel : BaseViewModel
     private bool _isCompletionOverlayVisible;
     private string _completedDurationText = "0 dk tamamland\u0131";
     private readonly ISessionService _sessionService;
-    private readonly MediaPlayer _mediaPlayer = new();
 
     public CountdownViewModel(ITimerService timerService, ISessionService sessionService)
     {
@@ -106,7 +106,7 @@ public sealed class CountdownViewModel : BaseViewModel
         OnPropertyChanged(nameof(StartButtonText));
     }
 
-    private async void Tick()
+    private void Tick()
     {
         if (!_isRunning)
         {
@@ -125,24 +125,31 @@ public sealed class CountdownViewModel : BaseViewModel
         _ = SaveCompletedSessionAsync();
         OnPropertyChanged(nameof(StartButtonText));
 
-        try
-        {
-            var alarmPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "alarm_sesi_Og.wav");
-            _mediaPlayer.Open(new Uri(alarmPath));
-            _mediaPlayer.Volume = 1.0;
-            _mediaPlayer.Play();
-        }
-        catch { }
+        PlayAlarmSound();
 
         CompletedDurationText = $"{Minutes} dk tamamland\u0131";
         IsCompletionOverlayVisible = true;
+    }
 
-        await Task.Delay(3000);
+    private void PlayAlarmSound()
+    {
         try
         {
-            _mediaPlayer.Stop();
+            var alarmPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "alarm_sesi_Og.wav");
+            if (File.Exists(alarmPath))
+            {
+                SoundPlayer player = new SoundPlayer(alarmPath);
+                player.Play();
+            }
+            else
+            {
+                SystemSounds.Exclamation.Play();
+            }
         }
-        catch { }
+        catch
+        {
+            SystemSounds.Exclamation.Play();
+        }
     }
 
     private void DismissCompletion()

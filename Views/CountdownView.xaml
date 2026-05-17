@@ -38,7 +38,8 @@
         <ui:Card Grid.Row="3"
                  Style="{StaticResource DeepFocusCardStyle}"
                  Margin="0,24,0,0"
-                 Padding="16">
+                 Padding="16"
+                 VerticalAlignment="Top">
             <DockPanel LastChildFill="True">
                 <Grid DockPanel.Dock="Top" Margin="0,0,0,10">
                     <Grid.ColumnDefinitions>

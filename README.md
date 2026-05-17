@@ -90,5 +90,3 @@ Değerli geri dönüşleriniz için linkedin veya mail aracılığıyla ulaşabi
 tavsanlicengizhan@gmail.com
 
 ---
-
----

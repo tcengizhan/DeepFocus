@@ -48,6 +48,7 @@
 
             <TabControl Grid.Row="1"
                         Style="{StaticResource BottomTabControlStyle}"
+                        SelectedIndex="{Binding ActiveTabIndex, Mode=TwoWay}"
                         SelectionChanged="OnTabSelectionChanged">
                 <TabItem Style="{StaticResource BottomTabItemStyle}">
                     <TabItem.Header>

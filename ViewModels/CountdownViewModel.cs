@@ -19,6 +19,8 @@ public sealed class CountdownViewModel : BaseViewModel
     private string _completedDurationText = "0 dk tamamland\u0131";
     private readonly ISessionService _sessionService;
 
+    public event Action<int>? RequestTabSwitch;
+
     public CountdownViewModel(ITimerService timerService, ISessionService sessionService)
     {
         _sessionService = sessionService;
@@ -125,8 +127,13 @@ public sealed class CountdownViewModel : BaseViewModel
         _ = SaveCompletedSessionAsync();
         OnPropertyChanged(nameof(StartButtonText));
 
+        // Switch to timer tab (index 2) first
+        RequestTabSwitch?.Invoke(2);
+
+        // Play alarm sound
         PlayAlarmSound();
 
+        // Show completion overlay
         CompletedDurationText = $"{Minutes} dk tamamland\u0131";
         IsCompletionOverlayVisible = true;
     }
@@ -181,9 +188,8 @@ public sealed class CountdownViewModel : BaseViewModel
         }
     }
 
-    private Task ClearHistoryAsync()
+    private async Task ClearHistoryAsync()
     {
-        TimerHistory.Clear();
-        return Task.CompletedTask;
+        await _sessionService.ClearTimerHistoryAsync();
     }
 }

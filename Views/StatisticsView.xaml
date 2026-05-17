@@ -73,7 +73,8 @@
         <ui:Card Grid.Row="2"
                  Style="{StaticResource DeepFocusCardStyle}"
                  Margin="0,18,0,0"
-                 Padding="16">
+                 Padding="16"
+                 VerticalAlignment="Top">
             <DockPanel LastChildFill="True">
                 <TextBlock DockPanel.Dock="Top"
                            Text="BUG&#220;N&#220;N ZAMANLAYICILARI"

@@ -44,7 +44,7 @@ Aklımda canlandırdığım ve promptlarla bir değer ortaya koyduğum uygulamam
 - Bugünün zamanlayıcı oturumları
 
 ---
-## 🤖 Vibe Coding Deneyimi
+##  Vibe Coding Deneyimi
 Bu süreçte kullandığım araçlar:
 - **OpenAI Codex** — Projenin ana iskeletini ve özelliklerini burada kurdum.
 - **Google Antigravity** — Tasarımsal iyileştirmeleri ve küçük hataları burada düzelttim.

@@ -11,6 +11,7 @@
   <ItemGroup>
     <Resource Include="DeepFocus.ico" />
     <Resource Include="deepfocus_seffafvekare.png" />
+    <Resource Include="Resources\alarm.m4a" />
   </ItemGroup>
 
   <ItemGroup>

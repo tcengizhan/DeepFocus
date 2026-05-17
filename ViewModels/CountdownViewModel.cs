@@ -34,7 +34,7 @@ public sealed class CountdownViewModel : BaseViewModel
 
         try
         {
-            _mediaPlayer.Open(new Uri(@"C:\Windows\Media\chimes.wav"));
+            _mediaPlayer.Open(new Uri("pack://application:,,,/Resources/alarm.m4a"));
             _mediaPlayer.Volume = 1.0;
         }
         catch { }
@@ -111,7 +111,7 @@ public sealed class CountdownViewModel : BaseViewModel
         OnPropertyChanged(nameof(StartButtonText));
     }
 
-    private void Tick()
+    private async void Tick()
     {
         if (!_isRunning)
         {
@@ -132,24 +132,20 @@ public sealed class CountdownViewModel : BaseViewModel
 
         try
         {
-            _mediaPlayer.Volume = 1.0;
             _mediaPlayer.Position = TimeSpan.Zero;
             _mediaPlayer.Play();
-        }
-        catch
-        {
-            try { SystemSounds.Exclamation.Play(); } catch { }
-        }
-
-        try
-        {
-            SystemSounds.Hand.Play();
-            SystemSounds.Asterisk.Play();
         }
         catch { }
 
         CompletedDurationText = $"{Minutes} dk tamamland\u0131";
         IsCompletionOverlayVisible = true;
+
+        await Task.Delay(3000);
+        try
+        {
+            _mediaPlayer.Stop();
+        }
+        catch { }
     }
 
     private void DismissCompletion()

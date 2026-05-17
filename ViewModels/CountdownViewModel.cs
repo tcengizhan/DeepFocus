@@ -2,6 +2,7 @@ using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Media;
 using DeepFocus.Models;
 using DeepFocus.Services;
 
@@ -128,15 +129,27 @@ public sealed class CountdownViewModel : BaseViewModel
         Remaining = TimeSpan.Zero;
         _ = SaveCompletedSessionAsync();
         OnPropertyChanged(nameof(StartButtonText));
-        CompletedDurationText = $"{Minutes} dk tamamland\u0131";
-        IsCompletionOverlayVisible = true;
-        
+
         try
         {
+            _mediaPlayer.Volume = 1.0;
             _mediaPlayer.Position = TimeSpan.Zero;
             _mediaPlayer.Play();
         }
+        catch
+        {
+            try { SystemSounds.Exclamation.Play(); } catch { }
+        }
+
+        try
+        {
+            SystemSounds.Hand.Play();
+            SystemSounds.Asterisk.Play();
+        }
         catch { }
+
+        CompletedDurationText = $"{Minutes} dk tamamland\u0131";
+        IsCompletionOverlayVisible = true;
     }
 
     private void DismissCompletion()

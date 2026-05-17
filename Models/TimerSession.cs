@@ -17,6 +17,8 @@ public sealed class TimerSession
     public string Mode { get; set; } = string.Empty;
 
     public bool Completed { get; set; }
+    
+    public bool HiddenFromTimerTab { get; set; }
 
     public string TimerHistoryText => $"{Math.Round(Duration.TotalMinutes)} dk - {StartedAt.ToString("dd MMM HH:mm", TrCulture)}";
 

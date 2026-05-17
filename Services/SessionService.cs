@@ -27,7 +27,7 @@ public sealed class SessionService : ISessionService
         using var connection = OpenConnection();
         using var command = connection.CreateCommand();
         command.CommandText = """
-            SELECT Id, StartedAt, EndedAt, DurationSeconds, Mode, Completed
+            SELECT Id, StartedAt, EndedAt, DurationSeconds, Mode, Completed, HiddenFromTimerTab
             FROM TimerSessions
             ORDER BY StartedAt DESC
             LIMIT 25;
@@ -45,7 +45,8 @@ public sealed class SessionService : ISessionService
                 EndedAt = reader.IsDBNull(2) ? null : DateTime.Parse(reader.GetString(2)),
                 Duration = TimeSpan.FromSeconds(reader.GetDouble(3)),
                 Mode = reader.GetString(4),
-                Completed = reader.GetInt32(5) == 1
+                Completed = reader.GetInt32(5) == 1,
+                HiddenFromTimerTab = reader.GetInt32(6) == 1
             });
         }
 
@@ -194,7 +195,7 @@ public sealed class SessionService : ISessionService
     {
         using var connection = OpenConnection();
         using var command = connection.CreateCommand();
-        command.CommandText = "DELETE FROM TimerSessions WHERE Mode = 'Zamanlayıcı' OR Mode = 'Timer';";
+        command.CommandText = "UPDATE TimerSessions SET HiddenFromTimerTab = 1 WHERE Mode = 'Zamanlayıcı' OR Mode = 'Timer';";
         command.ExecuteNonQuery();
 
         SessionsChanged?.Invoke(this, EventArgs.Empty);
@@ -276,7 +277,8 @@ public sealed class SessionService : ISessionService
                 EndedAt TEXT NULL,
                 DurationSeconds REAL NOT NULL,
                 Mode TEXT NOT NULL,
-                Completed INTEGER NOT NULL
+                Completed INTEGER NOT NULL,
+                HiddenFromTimerTab INTEGER DEFAULT 0
             );
 
             CREATE TABLE IF NOT EXISTS Preferences (
@@ -286,6 +288,14 @@ public sealed class SessionService : ISessionService
 
             """;
         command.ExecuteNonQuery();
+
+        try
+        {
+            using var alterCommand = connection.CreateCommand();
+            alterCommand.CommandText = "ALTER TABLE TimerSessions ADD COLUMN HiddenFromTimerTab INTEGER DEFAULT 0;";
+            alterCommand.ExecuteNonQuery();
+        }
+        catch { }
     }
 
     private SqliteConnection OpenConnection()

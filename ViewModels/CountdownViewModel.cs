@@ -188,7 +188,8 @@ public sealed class CountdownViewModel : BaseViewModel
     private async Task RefreshTimerHistoryAsync()
     {
         TimerHistory.Clear();
-        foreach (var session in (await _sessionService.GetRecentSessionsAsync()).Where(session => session.Mode == "Zamanlayıcı" || session.Mode == "Timer"))
+        foreach (var session in (await _sessionService.GetRecentSessionsAsync())
+            .Where(session => (session.Mode == "Zamanlayıcı" || session.Mode == "Timer") && !session.HiddenFromTimerTab))
         {
             TimerHistory.Add(session);
         }

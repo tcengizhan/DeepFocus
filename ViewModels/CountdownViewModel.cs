@@ -136,10 +136,6 @@ public sealed class CountdownViewModel : BaseViewModel
         try
         {
             var alarmPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "alarm_sesi_Og.wav");
-            
-            // Write to a log file to check if file exists
-            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug.txt"), 
-                $"Path: {alarmPath}\nExists: {File.Exists(alarmPath)}");
                 
             if (File.Exists(alarmPath))
             {

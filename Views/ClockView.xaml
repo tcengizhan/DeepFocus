@@ -12,6 +12,14 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+            <Image Source="pack://application:,,,/deepfocus_seffafvekare.png"
+                   Width="80" Height="80"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,8" />
+            <TextBlock Text="D E E P F O C U S"
+                       Style="{StaticResource ChromeTitleTextStyle}"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,24" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding Time}" Style="{StaticResource LargeTimeTextStyle}" />
                 <TextBlock Text="{Binding Seconds}"

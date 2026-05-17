@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Resource Include="DeepFocus.ico" />
+    <Resource Include="deepfocus_seffafvekare.png" />
   </ItemGroup>
 
   <ItemGroup>
